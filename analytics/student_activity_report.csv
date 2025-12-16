@@ -1,0 +1,27 @@
+student_id,name,email,primary_course,total_enrollments
+S029,Ariunbold S,ariunbold.s@example.com,Data,7
+S010,Boldoo Test,boldoo@example.com,IT,7
+S021,Jason Park,jason.park@example.com,Data,7
+S025,Noah Martin,noah.martin@example.com,Data,7
+S020,Amina Noor,amina.noor@example.com,IT,4
+S013,Anu Erdene,anu.erdene@example.com,Data,4
+S012,Bataa Munkh,bataa.munkh@example.com,IT,4
+S024,Emma Brown,emma.brown@example.com,English,4
+S027,Ethan Lee,ethan.lee@example.com,Business,4
+S011,Ganaa Test,ganaa@example.com,Management,4
+S023,Liam Wilson,liam.wilson@example.com,IT,4
+S028,Mia Chen,mia.chen@example.com,IT,4
+S026,Olivia Clark,olivia.clark@example.com,Management,4
+S022,Sofia Nguyen,sofia.nguyen@example.com,Business,4
+S014,Temuulen Bat,temuulen.bat@example.com,Business,4
+S019,Delger Khan,delger.khan@example.com,Business,3
+S018,Erkhem Bayar,erkhem.bayar@example.com,Management,3
+S015,Nomin Saran,nomin.saran@example.com,English,3
+S016,Otgonbayar Dash,otgonbayar.dash@example.com,IT,3
+S017,Suvd Purev,suvd.purev@example.com,Data,3
+S003,Michael Chen,michael.chen@example.com,Business,2
+S004,Emily Davis,emily.davis@example.com,IT,1
+S005,John Smith,john.smith@example.com,English,1
+S002,Sara Lee,sara.lee@example.com,Data,1
+S007,Dulmaa Urnaa,dulmaa@example.com,IT,0
+S006,Ganaa Bataa,ganaa@example.com,Management,0

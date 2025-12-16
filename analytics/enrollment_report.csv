@@ -1,0 +1,93 @@
+enrollment_id,student_id,course_id,enrolled_at,course_code,course_name,department
+21,10,5,2025-12-16 09:37:23,ENG101,Academic English,Languages
+42,13,19,2025-12-16 09:37:23,DS202,Data Visualization,Data & Analytics
+105,27,16,2025-12-16 09:37:23,IT101,Intro to IT,Information Technology
+127,23,20,2025-12-16 09:37:23,ML101,Machine Learning Fundamentals,Data & Analytics
+29,12,5,2025-12-16 09:37:23,ENG101,Academic English,Languages
+48,15,19,2025-12-16 09:37:23,DS202,Data Visualization,Data & Analytics
+16,9,4,2025-12-16 09:37:23,DS101,Data Science Basics,Data & Analytics
+94,24,17,2025-12-16 09:37:23,IT202,Networking Basics,Information Technology
+44,13,21,2025-12-16 09:37:23,MGT201,Project Management,Management
+64,19,5,2025-12-16 09:37:23,ENG101,Academic English,Languages
+54,17,19,2025-12-16 09:37:23,DS202,Data Visualization,Data & Analytics
+15,9,3,2025-12-16 09:37:23,BUS101,Business Fundamentals,Business
+24,11,4,2025-12-16 09:37:23,DS101,Data Science Basics,Data & Analytics
+102,26,17,2025-12-16 09:37:23,IT202,Networking Basics,Information Technology
+50,15,21,2025-12-16 09:37:23,MGT201,Project Management,Management
+72,21,5,2025-12-16 09:37:23,ENG101,Academic English,Languages
+92,24,19,2025-12-16 09:37:23,DS202,Data Visualization,Data & Analytics
+23,11,3,2025-12-16 09:37:23,BUS101,Business Fundamentals,Business
+59,18,4,2025-12-16 09:37:23,DS101,Data Science Basics,Data & Analytics
+43,13,18,2025-12-16 09:37:23,IT303,Database Systems,Information Technology
+56,17,21,2025-12-16 09:37:23,MGT201,Project Management,Management
+14,8,16,2025-12-16 09:37:23,IT101,Intro to IT,Information Technology
+100,26,19,2025-12-16 09:37:23,DS202,Data Visualization,Data & Analytics
+57,18,3,2025-12-16 09:37:23,BUS101,Business Fundamentals,Business
+62,19,22,2025-12-16 09:37:23,COM101,Communication Skills,General Studies
+67,20,4,2025-12-16 09:37:23,DS101,Data Science Basics,Data & Analytics
+49,15,18,2025-12-16 09:37:23,IT303,Database Systems,Information Technology
+22,10,16,2025-12-16 09:37:23,IT101,Intro to IT,Information Technology
+91,23,20,2025-12-16 09:37:23,ML101,Machine Learning Fundamentals,Data & Analytics
+65,20,3,2025-12-16 09:37:23,BUS101,Business Fundamentals,Business
+70,21,22,2025-12-16 09:37:23,COM101,Communication Skills,General Studies
+75,22,4,2025-12-16 09:37:23,DS101,Data Science Basics,Data & Analytics
+55,17,18,2025-12-16 09:37:23,IT303,Database Systems,Information Technology
+30,12,16,2025-12-16 09:37:23,IT101,Intro to IT,Information Technology
+99,25,20,2025-12-16 09:37:23,ML101,Machine Learning Fundamentals,Data & Analytics
+73,22,3,2025-12-16 09:37:23,BUS101,Business Fundamentals,Business
+123,19,18,2025-12-16 09:37:23,IT303,Database Systems,Information Technology
+93,24,16,2025-12-16 09:37:23,IT101,Intro to IT,Information Technology
+107,27,20,2025-12-16 09:37:23,ML101,Machine Learning Fundamentals,Data & Analytics
+122,19,3,2025-12-16 09:37:23,BUS101,Business Fundamentals,Business
+17,9,5,2025-12-16 09:37:23,ENG101,Academic English,Languages
+129,27,18,2025-12-16 09:37:23,IT303,Database Systems,Information Technology
+128,27,3,2025-12-16 09:37:23,BUS101,Business Fundamentals,Business
+101,26,16,2025-12-16 09:37:23,IT101,Intro to IT,Information Technology
+124,19,20,2025-12-16 09:37:23,ML101,Machine Learning Fundamentals,Data & Analytics
+25,11,5,2025-12-16 09:37:23,ENG101,Academic English,Languages
+45,14,19,2025-12-16 09:37:23,DS202,Data Visualization,Data & Analytics
+12,8,4,2025-12-16 09:37:23,DS101,Data Science Basics,Data & Analytics
+90,23,17,2025-12-16 09:37:23,IT202,Networking Basics,Information Technology
+130,27,20,2025-12-16 09:37:23,ML101,Machine Learning Fundamentals,Data & Analytics
+60,18,5,2025-12-16 09:37:23,ENG101,Academic English,Languages
+51,16,19,2025-12-16 09:37:23,DS202,Data Visualization,Data & Analytics
+11,8,3,2025-12-16 09:37:23,BUS101,Business Fundamentals,Business
+20,10,4,2025-12-16 09:37:23,DS101,Data Science Basics,Data & Analytics
+98,25,17,2025-12-16 09:37:23,IT202,Networking Basics,Information Technology
+47,14,21,2025-12-16 09:37:23,MGT201,Project Management,Management
+68,20,5,2025-12-16 09:37:23,ENG101,Academic English,Languages
+88,23,19,2025-12-16 09:37:23,DS202,Data Visualization,Data & Analytics
+19,10,3,2025-12-16 09:37:23,BUS101,Business Fundamentals,Business
+28,12,4,2025-12-16 09:37:23,DS101,Data Science Basics,Data & Analytics
+106,27,17,2025-12-16 09:37:23,IT202,Networking Basics,Information Technology
+53,16,21,2025-12-16 09:37:23,MGT201,Project Management,Management
+76,22,5,2025-12-16 09:37:23,ENG101,Academic English,Languages
+96,25,19,2025-12-16 09:37:23,DS202,Data Visualization,Data & Analytics
+27,12,3,2025-12-16 09:37:23,BUS101,Business Fundamentals,Business
+58,18,22,2025-12-16 09:37:23,COM101,Communication Skills,General Studies
+63,19,4,2025-12-16 09:37:23,DS101,Data Science Basics,Data & Analytics
+46,14,18,2025-12-16 09:37:23,IT303,Database Systems,Information Technology
+18,9,16,2025-12-16 09:37:23,IT101,Intro to IT,Information Technology
+104,27,19,2025-12-16 09:37:23,DS202,Data Visualization,Data & Analytics
+61,19,3,2025-12-16 09:37:23,BUS101,Business Fundamentals,Business
+66,20,22,2025-12-16 09:37:23,COM101,Communication Skills,General Studies
+71,21,4,2025-12-16 09:37:23,DS101,Data Science Basics,Data & Analytics
+52,16,18,2025-12-16 09:37:23,IT303,Database Systems,Information Technology
+26,11,16,2025-12-16 09:37:23,IT101,Intro to IT,Information Technology
+95,24,20,2025-12-16 09:37:23,ML101,Machine Learning Fundamentals,Data & Analytics
+69,21,3,2025-12-16 09:37:23,BUS101,Business Fundamentals,Business
+74,22,22,2025-12-16 09:37:23,COM101,Communication Skills,General Studies
+120,8,18,2025-12-16 09:37:23,IT303,Database Systems,Information Technology
+89,23,16,2025-12-16 09:37:23,IT101,Intro to IT,Information Technology
+103,26,20,2025-12-16 09:37:23,ML101,Machine Learning Fundamentals,Data & Analytics
+119,8,3,2025-12-16 09:37:23,BUS101,Business Fundamentals,Business
+13,8,5,2025-12-16 09:37:23,ENG101,Academic English,Languages
+126,23,18,2025-12-16 09:37:23,IT303,Database Systems,Information Technology
+97,25,16,2025-12-16 09:37:23,IT101,Intro to IT,Information Technology
+121,8,20,2025-12-16 09:37:23,ML101,Machine Learning Fundamentals,Data & Analytics
+125,23,3,2025-12-16 09:37:23,BUS101,Business Fundamentals,Business
+7,3,4,2025-11-28 09:28:10,DS101,Data Science Basics,Data & Analytics
+6,3,3,2025-11-28 09:28:10,BUS101,Business Fundamentals,Business
+10,5,5,2025-11-28 09:28:10,ENG101,Academic English,Languages
+8,4,2,2025-11-28 09:28:10,IT201,Web Development,Information Technology
+5,2,5,2025-11-28 09:28:10,ENG101,Academic English,Languages
