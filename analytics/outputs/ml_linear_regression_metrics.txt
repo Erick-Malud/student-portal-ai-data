@@ -1,0 +1,5 @@
+Model: Linear Regression
+MAE : 1.3750
+RMSE: 1.7847
+R^2 : 0.2694
+Test size: 8

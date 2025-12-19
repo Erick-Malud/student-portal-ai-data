@@ -1,0 +1,23 @@
+📊 EXPLORATORY DATA ANALYSIS REPORT
+
+Total students analysed: 26
+
+1️⃣ Student Age Distribution
+- Average age: 25.27
+- Median age: 24.00
+- Standard deviation: 5.10
+- Age distribution is slightly right-skewed.
+
+2️⃣ Enrollment Behaviour
+- Average enrollments per student: 3.54
+- Maximum enrollments by a single student: 7.0
+- Enrollment activity is relatively evenly distributed.
+
+3️⃣ Relationship Between Age and Enrollment
+- Correlation coefficient: 0.198
+- There is little to no linear relationship between age and enrollments.
+
+4️⃣ EDA Conclusion
+- Age alone is not a strong predictor of enrollment activity.
+- Enrollment behaviour varies more by individual than by age.
+- Dataset is suitable for feature engineering and machine learning.

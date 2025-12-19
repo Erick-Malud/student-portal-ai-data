@@ -1,0 +1,5 @@
+Model Evaluation Report
+------------------------
+Cross-validation accuracy scores: [0.83333333 1.         1.         1.         0.8       ]
+Mean accuracy: 0.9267
+Std deviation: 0.0904
