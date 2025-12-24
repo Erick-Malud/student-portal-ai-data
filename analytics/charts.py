@@ -3,6 +3,8 @@ from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from ml.regression_baseline import DATA_DIR
+
 OUTPUT_DIR = Path("analytics/outputs")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -26,7 +28,10 @@ def chart_enrollments_by_course():
     save_show("01_enrollments_by_course.png")
 
 def chart_students_by_primary_course():
-    df = pd.read_csv("analytics/student_activity_report.csv")
+    # df = pd.read_csv("analytics/student_activity_report.csv")
+    DATA_PATH = DATA_DIR / "student_activity_report.csv"
+    df = pd.read_csv(DATA_PATH)
+
     counts = df["primary_course"].fillna("None").value_counts().sort_values(ascending=False)
 
     plt.figure()
@@ -38,7 +43,11 @@ def chart_students_by_primary_course():
     save_show("02_students_by_primary_course.png")
 
 def chart_students_with_zero_enrollments():
-    df = pd.read_csv("analytics/student_activity_report.csv")
+    # df = pd.read_csv("analytics/student_activity_report.csv")
+
+    DATA_PATH = DATA_DIR / "student_activity_report.csv"
+    df = pd.read_csv(DATA_PATH)
+
     zero = (df["total_enrollments"] == 0).sum()
     nonzero = (df["total_enrollments"] > 0).sum()
 

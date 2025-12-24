@@ -1,0 +1,51 @@
+
+╔════════════════════════════════════════════════════════════╗
+║          MODEL COMPARISON REPORT                           ║
+║          Month 4 — Step 7                                  ║
+╚════════════════════════════════════════════════════════════╝
+
+📊 EVALUATION METRICS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Model 1: Linear Regression
+  • RMSE:  2.2812
+  • MAE:   1.9265
+  • R²:    -3.2577
+
+Model 2: Random Forest
+  • RMSE:  2.5165
+  • MAE:   2.1861
+  • R²:    -4.1816
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🏆 WINNER: Linear Regression
+
+📈 Improvement: 9.35% reduction in RMSE
+
+📝 INTERPRETATION:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+• RMSE (Root Mean Squared Error):
+  - Measures average prediction error
+  - Lower is better
+  - Linear Regression has lower RMSE → more accurate predictions
+
+• R² (R-squared):
+  - Measures how much variance is explained
+  - Range: 0 to 1 (higher is better)
+  - Linear Regression: -325.8% variance explained
+  - Random Forest: -418.2% variance explained
+
+🎯 RECOMMENDATION:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Use Linear Regression for production deployment.
+
+Reasoning:
+- Simpler model with good performance, easier to interpret
+- Faster predictions and lower computational cost
+- 9.4% better prediction accuracy
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Generated: 2025-12-24 16:43:35

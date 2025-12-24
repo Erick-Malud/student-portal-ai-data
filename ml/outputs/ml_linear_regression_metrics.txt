@@ -1,0 +1,5 @@
+Linear Regression Metrics
+========================
+RMSE: 2.2812
+MAE:  1.9265
+R²:   -3.2577

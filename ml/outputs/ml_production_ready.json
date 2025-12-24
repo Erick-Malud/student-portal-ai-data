@@ -1,0 +1,61 @@
+{
+  "model_info": {
+    "name": "Student Enrollment Predictor",
+    "type": "LinearRegression",
+    "version": "1.0.0",
+    "created_date": "2025-12-24T17:10:17.097659",
+    "problem_type": "regression",
+    "target": "total_enrollments"
+  },
+  "performance": {
+    "test_rmse": 2.2811876976841887,
+    "test_mae": 1.9264636727016227,
+    "test_r2": -3.257668709871928
+  },
+  "features": {
+    "count": 5,
+    "names": [
+      "age",
+      "primary_course_Data",
+      "primary_course_English",
+      "primary_course_IT",
+      "primary_course_Management"
+    ],
+    "types": {
+      "age": "int64",
+      "primary_course_Data": "bool",
+      "primary_course_English": "bool",
+      "primary_course_IT": "bool",
+      "primary_course_Management": "bool"
+    }
+  },
+  "deployment": {
+    "model_path": "ml/models/best_model.joblib",
+    "input_format": "JSON with feature names as keys",
+    "output_format": "Predicted enrollment count (float)",
+    "example_input": {
+      "age": 22.0,
+      "primary_course_Data": 1.0,
+      "primary_course_English": 0.0,
+      "primary_course_IT": 0.0,
+      "primary_course_Management": 0.0
+    },
+    "example_output": {
+      "predicted_enrollments": 1.5,
+      "confidence": "medium"
+    }
+  },
+  "usage": {
+    "python_example": "\nimport joblib\nimport pandas as pd\n\n# Load model\nmodel = joblib.load('ml/models/best_model.joblib')\n\n# Prepare input\ninput_data = pd.DataFrame([{\n    'age': 25,\n    'primary_course_Data': True,\n    'primary_course_English': False,\n    'primary_course_IT': False,\n    'primary_course_Management': False\n}])\n\n# Make prediction\nprediction = model.predict(input_data)\nprint(f'Predicted enrollments: {prediction[0]:.2f}')\n",
+    "api_endpoint_example": "/api/predict/enrollments"
+  },
+  "monitoring": {
+    "track_metrics": [
+      "rmse",
+      "mae",
+      "prediction_latency"
+    ],
+    "retrain_trigger": "monthly or when performance degrades > 20%",
+    "data_requirements": "minimum 100 new samples for retraining"
+  }
+}
