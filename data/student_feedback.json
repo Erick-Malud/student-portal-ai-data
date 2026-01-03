@@ -1,0 +1,122 @@
+[
+  {
+    "student_id": 1,
+    "text": "I absolutely love this course! The instructor explains concepts so clearly and the examples are really helpful. I feel like I'm finally understanding programming.",
+    "course": "Python",
+    "timestamp": "2026-01-02 10:30:00"
+  },
+  {
+    "student_id": 2,
+    "text": "I'm really struggling with the recursion homework. It's way too difficult and I don't understand it at all. I've spent hours and still can't figure it out.",
+    "course": "Python",
+    "timestamp": "2026-01-02 14:15:00"
+  },
+  {
+    "student_id": 3,
+    "text": "I'm thinking about dropping this class. The workload is overwhelming and I can't keep up. I'm stressed and anxious all the time.",
+    "course": "Python",
+    "timestamp": "2026-01-02 16:45:00"
+  },
+  {
+    "student_id": 4,
+    "text": "The homework assignments are really helpful for practice, but they take a lot of time to complete. Maybe reduce the number of problems?",
+    "course": "Python",
+    "timestamp": "2026-01-02 11:20:00"
+  },
+  {
+    "student_id": 5,
+    "text": "When is the final exam scheduled? I need to know so I can plan my study schedule accordingly.",
+    "course": "Python",
+    "timestamp": "2026-01-02 09:00:00"
+  },
+  {
+    "student_id": 6,
+    "text": "The lab sessions are fantastic! The TAs are patient and really help us understand the material hands-on.",
+    "course": "Python",
+    "timestamp": "2026-01-02 15:30:00"
+  },
+  {
+    "student_id": 7,
+    "text": "I'm confused about classes and objects. The lecture went too fast and I couldn't follow along.",
+    "course": "Python",
+    "timestamp": "2026-01-02 13:45:00"
+  },
+  {
+    "student_id": 8,
+    "text": "This is my favorite class this semester! I look forward to every lecture and lab.",
+    "course": "Python",
+    "timestamp": "2026-01-02 12:00:00"
+  },
+  {
+    "student_id": 9,
+    "text": "The upload system for assignments keeps crashing. I tried submitting my homework three times and it failed each time. Very frustrating!",
+    "course": "Python",
+    "timestamp": "2026-01-02 17:00:00"
+  },
+  {
+    "student_id": 10,
+    "text": "I wish there were more office hours available. The current schedule doesn't work with my other classes.",
+    "course": "Python",
+    "timestamp": "2026-01-02 10:00:00"
+  },
+  {
+    "student_id": 11,
+    "text": "The pace of the course is perfect. Not too fast, not too slow. I'm learning a lot!",
+    "course": "Python",
+    "timestamp": "2026-01-02 14:30:00"
+  },
+  {
+    "student_id": 12,
+    "text": "Recursion is so confusing! Can we have more examples and practice problems? I really want to understand this.",
+    "course": "Python",
+    "timestamp": "2026-01-02 11:00:00"
+  },
+  {
+    "student_id": 13,
+    "text": "I don't think I can pass this class. Everything is too hard and I'm falling behind. I feel like giving up.",
+    "course": "Python",
+    "timestamp": "2026-01-02 16:00:00"
+  },
+  {
+    "student_id": 14,
+    "text": "The textbook is excellent! Very clear explanations and good exercises.",
+    "course": "Python",
+    "timestamp": "2026-01-02 09:30:00"
+  },
+  {
+    "student_id": 15,
+    "text": "Can we slow down the lectures a bit? I'm taking notes but missing important parts because we move so quickly.",
+    "course": "Python",
+    "timestamp": "2026-01-02 15:00:00"
+  },
+  {
+    "student_id": 1,
+    "text": "The data structures assignment was challenging but fair. Really enjoyed working on it!",
+    "course": "Math",
+    "timestamp": "2026-01-02 18:00:00"
+  },
+  {
+    "student_id": 2,
+    "text": "I'm still struggling with the homework. Even after attending office hours, I'm confused.",
+    "course": "Math",
+    "timestamp": "2026-01-02 18:30:00"
+  },
+  {
+    "student_id": 5,
+    "text": "What are the prerequisites for the advanced course? I want to take it next semester.",
+    "course": "Math",
+    "timestamp": "2026-01-02 10:30:00"
+  },
+  {
+    "student_id": 6,
+    "text": "The study guide for the midterm was really helpful. Thank you!",
+    "course": "Math",
+    "timestamp": "2026-01-02 16:15:00"
+  },
+  {
+    "student_id": 7,
+    "text": "I'm having trouble with proofs. They don't make sense to me at all.",
+    "course": "Math",
+    "timestamp": "2026-01-02 14:00:00"
+  }
+]
