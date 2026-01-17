@@ -1,6 +1,6 @@
 """
 Student Data Loader - Step 3
-Handles loading and querying student data from students.json
+Handles loading and querying student data from database or JSON file
 """
 
 import json
@@ -13,14 +13,21 @@ from difflib import SequenceMatcher
 class StudentDataLoader:
     """Load and query student data efficiently"""
     
-    def __init__(self, data_file: str = "students.json"):
-        """Initialize with path to students.json"""
+    def __init__(self, data_file: str = "students.json", use_database: bool = False):
+        """
+        Initialize data loader
+        
+        Args:
+            data_file: Path to students.json (fallback if database fails)
+            use_database: If True, load from MySQL database; if False, use JSON file
+        """
         self.data_file = Path(data_file)
+        self.use_database = use_database
         self.students: List[Dict] = []
         self.students_by_id: Dict[int, Dict] = {}
         self.students_by_name: Dict[str, Dict] = {}
         
-        if not self.data_file.exists():
+        if not use_database and not self.data_file.exists():
             # Try parent directory
             parent_path = Path(__file__).parent.parent / data_file
             if parent_path.exists():
@@ -31,32 +38,113 @@ class StudentDataLoader:
         self.load_students()
     
     def load_students(self) -> List[Dict]:
-        """Load all students from JSON file"""
+        """Load all students from database or JSON file"""
+        if self.use_database:
+            try:
+                self._load_from_database()
+            except Exception as e:
+                print(f"⚠️  Database loading failed: {e}")
+                print("📄 Falling back to JSON file...")
+                self._load_from_json()
+        else:
+            self._load_from_json()
+        
+        return self.students
+    
+    def _load_from_database(self):
+        """Load students from MySQL database"""
+        try:
+            # Import here to avoid circular import
+            import sys
+            from pathlib import Path
+            
+            # Add parent directory to path to import db_config
+            parent_dir = Path(__file__).parent.parent
+            if str(parent_dir) not in sys.path:
+                sys.path.insert(0, str(parent_dir))
+            
+            from db_config import get_connection
+            
+            conn = get_connection()
+            try:
+                with conn.cursor(dictionary=True) as cur:
+                    cur.execute("""
+                        SELECT student_id, name, age, course, email
+                        FROM students
+                        ORDER BY id
+                    """)
+                    rows = cur.fetchall()
+                    self.students = rows
+            finally:
+                conn.close()
+            
+            print(f"✅ Loaded {len(self.students)} students from database")
+            self._build_indexes()
+            
+        except Exception as e:
+            raise Exception(f"Failed to load from database: {e}")
+    
+    def _load_from_json(self):
+        """Load students from JSON file"""
         try:
             with open(self.data_file, 'r', encoding='utf-8') as f:
                 self.students = json.load(f)
             
-            # Build indexes for fast lookup
-            for student in self.students:
-                student_id = student.get('id')
-                name = student.get('name', '').lower()
-                
-                if student_id:
-                    self.students_by_id[student_id] = student
-                if name:
-                    self.students_by_name[name] = student
+            print(f"✅ Loaded {len(self.students)} students from JSON file")
+            self._build_indexes()
             
-            print(f"✓ Loaded {len(self.students)} students from {self.data_file.name}")
-            return self.students
-            
-        except json.JSONDecodeError as e:
-            raise ValueError(f"Invalid JSON in students file: {e}")
         except Exception as e:
-            raise Exception(f"Error loading students: {e}")
+            raise Exception(f"Failed to load from JSON: {e}")
     
-    def get_student_by_id(self, student_id: int) -> Optional[Dict]:
-        """Get specific student by ID"""
-        return self.students_by_id.get(student_id)
+    def _build_indexes(self):
+        """Build indexes for fast lookup"""
+        for student in self.students:
+            # Support both 'id' and 'student_id' fields
+            student_id = student.get('id') or student.get('student_id')
+            name = student.get('name', '').lower()
+            
+            if student_id:
+                # Store with both the original type and as integer if possible
+                self.students_by_id[student_id] = student
+                
+                # For string IDs, also store lowercase version for case-insensitive lookup
+                if isinstance(student_id, str):
+                    self.students_by_id[student_id.lower()] = student
+                    self.students_by_id[student_id.upper()] = student
+                    
+                    # Try to extract numeric ID (e.g., "S001" -> 1)
+                    if student_id[0].isalpha():
+                        try:
+                            numeric_id = int(student_id[1:])
+                            self.students_by_id[numeric_id] = student
+                        except:
+                            pass
+            if name:
+                self.students_by_name[name] = student
+    
+    def get_student_by_id(self, student_id) -> Optional[Dict]:
+        """
+        Get specific student by ID
+        Supports both string IDs (e.g., 'S001') and integer IDs (e.g., 1)
+        """
+        # First try direct look up
+        student = self.students_by_id.get(student_id)
+        if student:
+            return student
+            
+        # Try type conversion
+        try:
+            # If string input looks like number, try as int
+            if isinstance(student_id, str) and student_id.isdigit():
+                return self.students_by_id.get(int(student_id))
+            
+            # If int input, try as string
+            if isinstance(student_id, int):
+                return self.students_by_id.get(str(student_id))
+        except:
+            pass
+            
+        return None
     
     def get_student_by_name(self, name: str, fuzzy: bool = True) -> Optional[Dict]:
         """
@@ -292,23 +380,30 @@ class StudentDataLoader:
 
 
 # Convenience functions for quick access
-def load_student_data(data_file: str = "students.json") -> StudentDataLoader:
-    """Quick function to create and return a StudentDataLoader instance"""
-    return StudentDataLoader(data_file)
+def load_student_data(data_file: str = "students.json", use_database: bool = True) -> StudentDataLoader:
+    """
+    Quick function to create and return a StudentDataLoader instance
+    
+    Args:
+        data_file: Path to students.json (fallback)
+        use_database: If True, load from MySQL database; if False, use JSON file
+    """
+    return StudentDataLoader(data_file, use_database=use_database)
 
 
-def get_student_info(student_id_or_name, data_file: str = "students.json") -> Optional[Dict]:
+def get_student_info(student_id_or_name, data_file: str = "students.json", use_database: bool = True) -> Optional[Dict]:
     """
     Quick function to get student info by ID or name
     
     Args:
-        student_id_or_name: Student ID (int) or name (str)
-        data_file: Path to students.json
+        student_id_or_name: Student ID (int or str) or name (str)
+        data_file: Path to students.json (fallback)
+        use_database: If True, load from MySQL database; if False, use JSON file
     
     Returns:
         Student dict if found, None otherwise
     """
-    loader = StudentDataLoader(data_file)
+    loader = StudentDataLoader(data_file, use_database=use_database)
     
     if isinstance(student_id_or_name, int):
         return loader.get_student_by_id(student_id_or_name)

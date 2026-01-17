@@ -29,10 +29,17 @@ class TextClassifier:
     def __init__(self):
         """Initialize text classifier with OpenAI client"""
         api_key = load_api_key()
-        self.client = OpenAI(api_key=api_key)
+        if api_key == "MOCK":
+            self.is_mock = True
+            self.client = None
+            print("✓ Text Classifier initialized (Mock Mode)")
+        else:
+            self.is_mock = False
+            self.client = OpenAI(api_key=api_key)
         self.model = "gpt-3.5-turbo"
         self.categories = QUERY_CATEGORIES
-        print("✓ Text Classifier initialized")
+        if not self.is_mock:
+            print("✓ Text Classifier initialized")
     
     def classify(self, text: str) -> Dict:
         """
@@ -52,6 +59,16 @@ class TextClassifier:
                 'requires_action': False,
                 'suggested_response_time': 'N/A',
                 'reasoning': 'Empty text provided'
+            }
+            
+        if self.is_mock:
+            return {
+                "category": "feedback_positive",
+                "confidence": 0.9,
+                "priority": "low",
+                "requires_action": False,
+                "suggested_response_time": "standard",
+                "reasoning": "Mock classification for development."
             }
         
         categories_str = "\n".join(

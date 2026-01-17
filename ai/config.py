@@ -14,6 +14,7 @@ env_path = BASE_DIR / ".env"
 load_dotenv(dotenv_path=env_path)
 
 # OpenAI Configuration
+USE_OPENAI = os.getenv("USE_OPENAI", "false").lower() == "true"
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
 OPENAI_MAX_TOKENS = int(os.getenv("OPENAI_MAX_TOKENS", "500"))
@@ -38,13 +39,21 @@ def validate_api_key():
         print("Update .env file with your real OpenAI API key")
         return False
     
-    if not OPENAI_API_KEY.startswith("sk-"):
+    if not OPENAI_API_KEY.startswith("sk-") and OPENAI_API_KEY != "MOCK":
         print("⚠️ Warning: API key format looks incorrect")
         print("OpenAI keys usually start with 'sk-'")
-        return False
+        # return False  <-- Allow it anyway for custom/mock keys
     
     print("✅ API key loaded successfully!")
     return True
+
+
+def load_api_key():
+    """
+    Load and return the OpenAI API key
+    Returns None if not configured
+    """
+    return OPENAI_API_KEY
 
 
 def get_api_config():

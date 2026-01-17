@@ -1,9 +1,117 @@
 [
   {
-    "student_id": "S001",
-    "name": "Bataa Dulmaa",
-    "age": 48,
+    "student_id": "S002",
+    "name": "Sara Lee",
+    "age": 22,
+    "course": "Data",
+    "email": "sara.lee@example.com",
+    "enrolled_courses": [
+      "Data"
+    ]
+  },
+  {
+    "student_id": "S003",
+    "name": "Michael Chen",
+    "age": 25,
+    "course": "Business",
+    "email": "michael.chen@example.com"
+  },
+  {
+    "student_id": "S004",
+    "name": "Emily Davis",
+    "age": 21,
     "course": "IT",
-    "email": "bataa@gmail.com"
+    "email": "emily.davis@example.com"
+  },
+  {
+    "student_id": "S005",
+    "name": "John Smith",
+    "age": 23,
+    "course": "English",
+    "email": "john.smith@example.com"
+  },
+  {
+    "student_id": "S006",
+    "name": "Ganaa Bataa",
+    "age": 28,
+    "course": "Management",
+    "email": "ganaa@example.com"
+  },
+  {
+    "student_id": "S007",
+    "name": "Dulmaa Umaa",
+    "age": 23,
+    "course": "IT",
+    "email": "dulmaa@example.com"
+  },
+  {
+    "student_id": "S010",
+    "name": "Boldoo Test",
+    "age": 30,
+    "course": "IT",
+    "email": "boldoo@example.com"
+  },
+  {
+    "student_id": "S011",
+    "name": "Ganaa Test",
+    "age": 45,
+    "course": "Management",
+    "email": "ganaa@example.com"
+  },
+  {
+    "student_id": "S012",
+    "name": "Bataa Munkh",
+    "age": 24,
+    "course": "IT",
+    "email": "bataa.munkh@example.com"
+  },
+  {
+    "student_id": "S013",
+    "name": "Anu Erdene",
+    "age": 22,
+    "course": "Data",
+    "email": "anu.erdene@example.com"
+  },
+  {
+    "student_id": "S014",
+    "name": "Temuulen Bat",
+    "age": 26,
+    "course": "Business",
+    "email": "temuulen.bat@example.com"
+  },
+  {
+    "student_id": "S015",
+    "name": "Nomin Saran",
+    "age": 21,
+    "course": "English",
+    "email": "nomin.saran@example.com"
+  },
+  {
+    "student_id": "S016",
+    "name": "Otgonbayar Dash",
+    "age": 29,
+    "course": "IT",
+    "email": "otgonbayar.dash@example.com"
+  },
+  {
+    "student_id": "S017",
+    "name": "Suvd Purev",
+    "age": 23,
+    "course": "Data",
+    "email": "suvd.purev@example.com"
+  },
+  {
+    "student_id": "S018",
+    "name": "Erkhem Bayar",
+    "age": 28,
+    "course": "Management",
+    "email": "erkhem.bayar@example.com"
+  },
+  {
+    "student_id": "S019",
+    "name": "Delger Khan",
+    "age": 27,
+    "course": "Business",
+    "email": "delger.khan@example.com"
   }
 ]

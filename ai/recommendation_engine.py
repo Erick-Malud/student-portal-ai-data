@@ -12,6 +12,14 @@ from ai.embeddings_manager import EmbeddingsManager
 from ai.ml_predictor import MLPredictor
 from student import Student
 
+# Local DB import (using lazy import in methods to avoid circular deps if needed)
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
+from course_db import CoursePortalDB
+# Mock description generator for legacy fields
+def generate_mock_description(course_name: str, dept: str) -> str:
+    return f"A comprehensive course on {course_name} offered by the {dept} department. Covers fundamental concepts and practical applications."
 
 class RecommendationEngine:
     """
@@ -40,8 +48,41 @@ class RecommendationEngine:
     
     def _load_courses(self) -> List[Dict]:
         """Load available courses from course database."""
-        # TODO: Replace with actual database query
-        # For now, return sample courses
+        try:
+            # Use existing DB logic
+            portal_db = CoursePortalDB()
+            # Manually fetching using same logic as portal_db.list_courses but returning list
+            # list_courses prints to stdout, so we reimplement the query here
+            from db_config import get_connection
+            
+            conn = get_connection()
+            db_courses = []
+            try:
+                with conn.cursor(dictionary=True) as cur:
+                    cur.execute("SELECT course_code, name, department FROM courses")
+                    rows = cur.fetchall()
+                    
+                    for row in rows:
+                        # Enrich with fields expected by AI engine
+                        db_courses.append({
+                            'name': row['name'],
+                            'course_code': row['course_code'],
+                            'description': generate_mock_description(row['name'], row['department']),
+                            'learning_objectives': ['Understand basic concepts', 'Apply practical skills'],
+                            'prerequisites': [], # DB doesn't track this yet
+                            'difficulty': 'intermediate', # Default
+                            'category': row['department'].lower().replace(' ', '_')
+                        })
+            finally:
+                conn.close()
+                
+            if db_courses:
+                print(f"✅ Loaded {len(db_courses)} courses from database")
+                return db_courses
+        except Exception as e:
+            print(f"⚠️  Database loading failed: {e}")
+            
+        # Fallback to hardcoded list if DB fails
         return [
             {
                 'name': 'Python Fundamentals',

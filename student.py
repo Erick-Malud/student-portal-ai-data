@@ -10,7 +10,8 @@ Python concepts:
 - METHODS to_dict() / from_dict() for JSON conversion.
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import List, Dict
 
 
 @dataclass
@@ -24,6 +25,9 @@ class Student:
         age: age as an integer
         course: main course or program (e.g., "IT", "Business")
         email: contact email
+        enrolled_courses: list of currently active courses
+        completed_courses: list of finished courses
+        grades: dictionary of course grades
     """
 
     student_id: str
@@ -31,6 +35,9 @@ class Student:
     age: int
     course: str
     email: str
+    enrolled_courses: List[str] = field(default_factory=list)
+    completed_courses: List[str] = field(default_factory=list)
+    grades: Dict[str, float] = field(default_factory=dict)
 
     def to_dict(self) -> dict:
         """
@@ -45,6 +52,9 @@ class Student:
             "age": self.age,
             "course": self.course,
             "email": self.email,
+            "enrolled_courses": self.enrolled_courses,
+            "completed_courses": self.completed_courses,
+            "grades": self.grades
         }
 
     @classmethod
@@ -61,4 +71,23 @@ class Student:
             age=int(data["age"]),
             course=data["course"],
             email=data["email"],
+            enrolled_courses=data.get("enrolled_courses", []),
+            completed_courses=data.get("completed_courses", []),
+            grades=data.get("grades", {})
         )
+
+    def get_completed_courses(self) -> List[str]:
+        """Get list of completed courses"""
+        return self.completed_courses
+
+    def get_enrolled_courses(self) -> List[str]:
+        """Get list of currently enrolled courses"""
+        return self.enrolled_courses
+
+    def complete_course(self, course_name: str, grade: float = None):
+        """Mark a course as completed"""
+        if course_name not in self.completed_courses:
+            self.completed_courses.append(course_name)
+        if grade is not None:
+            self.grades[course_name] = grade
+

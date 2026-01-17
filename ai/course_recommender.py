@@ -34,7 +34,14 @@ class CourseRecommender:
         if not api_key:
             raise ValueError("OPENAI_API_KEY not found in environment variables")
         
-        self.client = OpenAI(api_key=api_key)
+        if api_key == "MOCK":
+            self.is_mock = True
+            self.client = None
+            print("CourseRecommender running in MOCK mode.")
+        else:
+            self.is_mock = False
+            self.client = OpenAI(api_key=api_key)
+            
         self.recommendation_engine = RecommendationEngine()
         self.data_loader = StudentDataLoader()
         
@@ -118,14 +125,18 @@ When students ask for recommendations:
         
         # Get AI response
         try:
-            response = self.client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=messages,
-                temperature=0.7,
-                max_tokens=500
-            )
-            
-            assistant_message = response.choices[0].message.content
+            if self.is_mock:
+                assistant_message = "I see your request! (MOCK MODE). Based on your profile, I'd suggest looking into Web Development courses."
+                if recommendations_context:
+                    assistant_message += f"\n\nHere are some formal suggestions:\n{recommendations_context}"
+            else:
+                response = self.client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=messages,
+                    temperature=0.7,
+                    max_tokens=500
+                )
+                assistant_message = response.choices[0].message.content
             
             # Update conversation history
             self.conversation_history.append({"role": "user", "content": user_message})
@@ -313,7 +324,7 @@ When students ask for recommendations:
         
         # Add performance data if available
         try:
-            student_data = self.data_loader.get_student_data(student.student_id)
+            student_data = self.data_loader.get_student_by_id(student.student_id)
             if student_data and 'current_gpa' in student_data:
                 context += f"GPA: {student_data['current_gpa']:.2f}\n"
         except:

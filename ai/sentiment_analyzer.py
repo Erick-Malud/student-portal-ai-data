@@ -15,9 +15,16 @@ class SentimentAnalyzer:
     def __init__(self):
         """Initialize sentiment analyzer with OpenAI client"""
         api_key = load_api_key()
-        self.client = OpenAI(api_key=api_key)
+        if api_key == "MOCK":
+            self.is_mock = True
+            self.client = None
+            print("✓ Sentiment Analyzer initialized (Mock Mode)")
+        else:
+            self.is_mock = False
+            self.client = OpenAI(api_key=api_key)
         self.model = "gpt-3.5-turbo"
-        print("✓ Sentiment Analyzer initialized")
+        if not self.is_mock:
+            print("✓ Sentiment Analyzer initialized")
     
     def analyze_sentiment(self, text: str) -> Dict:
         """
@@ -37,6 +44,34 @@ class SentimentAnalyzer:
                 'confidence': 0.0,
                 'reasoning': 'Empty text provided'
             }
+
+        if self.is_mock:
+            # Simple keyword-based mock analysis
+            lower_text = text.lower()
+            if any(w in lower_text for w in ['love', 'great', 'amazing', 'happy', 'good']):
+                return {
+                    "sentiment": "positive",
+                    "score": 0.8,
+                    "emotion": "satisfaction",
+                    "confidence": 0.9,
+                    "reasoning": "Mock analysis: Found positive keywords."
+                }
+            elif any(w in lower_text for w in ['hate', 'bad', 'hard', 'struggle', 'awful']):
+                return {
+                    "sentiment": "negative",
+                    "score": -0.6,
+                    "emotion": "frustration",
+                    "confidence": 0.85,
+                    "reasoning": "Mock analysis: Found negative keywords."
+                }
+            else:
+                return {
+                    "sentiment": "neutral",
+                    "score": 0.1,
+                    "emotion": "neutral",
+                    "confidence": 0.5,
+                    "reasoning": "Mock analysis: No strong sentiment keywords found."
+                }
         
         prompt = f"""Analyze the sentiment of this student feedback:
 
