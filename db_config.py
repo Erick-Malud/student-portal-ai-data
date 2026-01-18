@@ -10,14 +10,12 @@ def get_connection() -> MySQLConnection:
     if not database_url:
         raise RuntimeError("DATABASE_URL is not set")
 
-    url = urlparse(database_url)
+    result = urlparse(database_url)
 
-    conn = mysql.connector.connect(
-        host=url.hostname,
-        port=url.port,
-        user=url.username,
-        password=url.password,
-        database=url.path.lstrip("/"),
+    return mysql.connector.connect(
+        host=result.hostname,
+        user=result.username,
+        password=result.password,
+        database=result.path.lstrip("/"),
+        port=result.port or 3306,   # 🔴 ЭНЭ Л АЛДААГ ЗАСНА
     )
-
-    return conn
