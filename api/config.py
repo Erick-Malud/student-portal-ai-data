@@ -48,7 +48,9 @@ class Settings:
         "http://127.0.0.1:8080",
         "http://127.0.0.1:5173",
         "http://localhost:5000", # Common frontend port
-        "https://student-portal.vercel.app" # Example Placeholder
+        "https://student-portal-ai-data.vercel.app",
+        "https://student-portal-ai-data-p355speby-erickmaluds-projects.vercel.app"
+
     ]
     if FRONTEND_ORIGIN:
         CORS_ORIGINS.append(FRONTEND_ORIGIN)
