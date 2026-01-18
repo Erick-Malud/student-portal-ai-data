@@ -17,14 +17,6 @@ type StudentProfile = {
   join_date?: string;
 };
 
-type Course = {
-  course_code: string;
-  course_name: string;
-  grade?: number;
-  status: string; // completed, enrolled
-  credits?: number;
-};
-
 type Message = {
   role: "user" | "assistant";
   content: string;
@@ -284,7 +276,7 @@ function DashboardView({ studentId, studentProfile }: ViewProps) {
                     paddingAngle={5}
                     dataKey="value"
                   >
-                    {ATTENDANCE_DATA.map((entry, index) => (
+                    {ATTENDANCE_DATA.map((_entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
