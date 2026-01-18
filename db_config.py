@@ -1,24 +1,23 @@
-"""
-db_config.py
-
-Central place for database connection configuration.
-Change these values if your MySQL setup is different.
-"""
-
+import os
 import mysql.connector
 from mysql.connector import MySQLConnection
+from urllib.parse import urlparse
 
 
 def get_connection() -> MySQLConnection:
-    """
-    Create and return a new MySQL connection.
+    database_url = os.getenv("DATABASE_URL")
 
-    Adjust host/user/password/database to match your XAMPP/MySQL setup.
-    """
+    if not database_url:
+        raise RuntimeError("DATABASE_URL is not set")
+
+    url = urlparse(database_url)
+
     conn = mysql.connector.connect(
-        host="localhost",
-        user="root",        # change if you use another user
-        password="",        # change if your root has a password
-        database="student_portal",
+        host=url.hostname,
+        port=url.port,
+        user=url.username,
+        password=url.password,
+        database=url.path.lstrip("/"),
     )
+
     return conn
