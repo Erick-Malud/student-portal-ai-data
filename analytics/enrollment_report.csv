@@ -1,4 +1,4 @@
-enrollment_id,student_id,course_id,enrolled_at,course_code,course_name,department
+enrollment_id,student_id,course_id,enrollment_date,course_code,course_name,department
 21,10,5,2025-12-16 09:37:23,ENG101,Academic English,Languages
 42,13,19,2025-12-16 09:37:23,DS202,Data Visualization,Data & Analytics
 105,27,16,2025-12-16 09:37:23,IT101,Intro to IT,Information Technology

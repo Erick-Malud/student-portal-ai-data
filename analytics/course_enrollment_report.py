@@ -19,13 +19,13 @@ SELECT
     e.id AS enrollment_id,
     e.student_id,
     e.course_id,
-    e.enrolled_at,
+    e.enrollment_date,
     c.course_code,
     c.name AS course_name,
     c.department
 FROM enrollments e
 JOIN courses c ON c.id = e.course_id
-ORDER BY e.enrolled_at DESC
+ORDER BY e.enrollment_date DESC
 """
 
 df = pd.read_sql(query, engine)

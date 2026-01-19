@@ -55,8 +55,8 @@ def seed_data():
                     # Insert enrollment
                     term = 'Spring 2025' if not is_completed else 'Fall 2024'
                     cursor.execute(
-                        "INSERT INTO enrollments (student_id, course_id, enrolled_at, status, term) VALUES (%s, %s, %s, %s, %s)",
-                        (s_id_db, cid, datetime.now(), status, term)
+                        "INSERT INTO enrollments (student_id, course_id,  enrollment_date, status, term) VALUES (%s, %s, %s, %s, %s)",
+                        (s_id_db, cid, datetime.now().date(), status, term)
                     )
                     existing_enrollments.append({'course_id': cid, 'status': status})
                     print(f"  - Added course ID {cid} ({status})")

@@ -4,6 +4,9 @@ import mysql.connector
 from db_config import get_connection
 import db_migration_extended
 import seed_data_extended
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def create_base_schema():
     print("🏗️ Creating base database schema...")
@@ -43,7 +46,10 @@ def create_base_schema():
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 student_id INT NOT NULL,
                 course_id INT NOT NULL,
-                enrollment_date DATE DEFAULT (CURRENT_DATE),
+                enrollment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                grade INT NULL,
+                status VARCHAR(20) DEFAULT 'enrolled',
+                term VARCHAR(20) DEFAULT 'Spring 2025',
                 FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
                 FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
             )
@@ -94,6 +100,45 @@ def import_students_from_json():
         cursor.close()
         conn.close()
 
+def seed_courses():
+    print("\n📚 Seeding initial courses...")
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    courses = [
+        ("CS101", "Intro to Computer Science", "IT"),
+        ("CS102", "Data Structures", "IT"),
+        ("DS201", "Data Analysis", "Data Science"),
+        ("BU101", "Business Management", "Business"),
+        ("ENG101", "English Composition", "Arts"),
+        ("MK101", "Marketing Basics", "Business"),
+        ("AI301", "Artificial Intelligence", "Data Science"),
+        ("DB101", "Database Systems", "IT")
+    ]
+    
+    count = 0
+    try:
+        for code, name, dept in courses:
+            # Check if exists
+            cursor.execute("SELECT id FROM courses WHERE course_code = %s", (code,))
+            if cursor.fetchone():
+                continue
+                
+            cursor.execute("""
+                INSERT INTO courses (course_code, name, department)
+                VALUES (%s, %s, %s)
+            """, (code, name, dept))
+            count += 1
+            
+        conn.commit()
+        print(f"✅ seeded {count} new courses.")
+        
+    except mysql.connector.Error as err:
+        print(f"❌ Error seeding courses: {err}")
+    finally:
+        cursor.close()
+        conn.close()
+
 if __name__ == "__main__":
     print("🚀 Starting Railway Database Setup...")
     print("-------------------------------------")
@@ -103,6 +148,9 @@ if __name__ == "__main__":
     
     # 2. Import JSON Data
     import_students_from_json()
+
+    # 2.5 Seed Courses (Required for Enrollments)
+    seed_courses()
     
     # 3. Run Extended Migrations (Grades, Attendance tables)
     print("\n🔄 Running Extended Migrations...")
