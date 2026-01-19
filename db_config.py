@@ -12,6 +12,9 @@ def get_connection() -> MySQLConnection:
 
     result = urlparse(database_url)
 
+    # Debug logging for connection issues
+    print(f"[INFO] Connecting to database at host: {result.hostname}")
+
     return mysql.connector.connect(
         host=result.hostname,
         user=result.username,

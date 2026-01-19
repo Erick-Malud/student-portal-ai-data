@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from api.models import StudentProfile, StudentPerformance, CourseGrade
 from api.middleware.auth import verify_api_key, limiter
 from ai.student_data_loader import StudentDataLoader
+from api.config import settings
 from student import Student
 from typing import Union
 import json
@@ -365,9 +366,12 @@ async def get_student_stats(
     """
     Get expanded student stats: Attendance, Academic Record (Grades), and Chart Data.
     """
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
+    conn = None
+    cursor = None
     try:
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
+        
         # Resolve Student ID
         cursor.execute("SELECT id FROM students WHERE student_id = %s", (student_id,))
         s_row = cursor.fetchone()
@@ -441,5 +445,7 @@ async def get_student_stats(
     except mysql.connector.Error as e:
          raise HTTPException(status_code=500, detail=str(e))
     finally:
-        cursor.close()
-        conn.close()
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
