@@ -11,6 +11,9 @@ import mysql.connector
 import random
 from datetime import datetime, timedelta
 from db_config import get_connection
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def seed_data():
     print("🌱 Seeding Extended Data...")
