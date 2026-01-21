@@ -1,0 +1,639 @@
+{
+  "generated_at": "2026-01-21T17:26:02.858894",
+  "thresholds": {
+    "AT_RISK_ATTENDANCE": 85,
+    "CRITICAL_ATTENDANCE": 70,
+    "AT_RISK_AVG_GRADE": 75,
+    "CRITICAL_AVG_GRADE": 60
+  },
+  "summary": {
+    "total_students": 16,
+    "good_standing": 10,
+    "at_risk": 6,
+    "critical_risk": 0
+  },
+  "students": [
+    {
+      "student_id": "S002",
+      "name": "Sara Lee",
+      "courses": [
+        {
+          "course_code": "ENG101",
+          "course_name": "English Composition",
+          "grade": 96.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "CS101",
+          "course_name": "Intro to Computer Science",
+          "grade": null,
+          "status": "enrolled"
+        },
+        {
+          "course_code": "DS201",
+          "course_name": "Data Analysis",
+          "grade": 91.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "BU101",
+          "course_name": "Business Management",
+          "grade": 74.0,
+          "status": "completed"
+        }
+      ],
+      "avg_grade": 87.0,
+      "attendance_pct": 90.0,
+      "status": "Good Standing",
+      "reasons": [],
+      "recommendation": "Continue current study habits; explore advanced electives."
+    },
+    {
+      "student_id": "S003",
+      "name": "Michael Chen",
+      "courses": [
+        {
+          "course_code": "DS201",
+          "course_name": "Data Analysis",
+          "grade": 74.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "CS101",
+          "course_name": "Intro to Computer Science",
+          "grade": 68.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "MK101",
+          "course_name": "Marketing Basics",
+          "grade": 77.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "CS102",
+          "course_name": "Data Structures",
+          "grade": 96.0,
+          "status": "completed"
+        }
+      ],
+      "avg_grade": 78.75,
+      "attendance_pct": 80.0,
+      "status": "At Risk",
+      "reasons": [
+        "Attendance Warning"
+      ],
+      "recommendation": "Schedule immediate meeting with student counselor regarding attendance."
+    },
+    {
+      "student_id": "S004",
+      "name": "Emily Davis",
+      "courses": [
+        {
+          "course_code": "AI301",
+          "course_name": "Artificial Intelligence",
+          "grade": 86.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "DS201",
+          "course_name": "Data Analysis",
+          "grade": 68.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "DB101",
+          "course_name": "Database Systems",
+          "grade": 65.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "ENG101",
+          "course_name": "English Composition",
+          "grade": 67.0,
+          "status": "completed"
+        }
+      ],
+      "avg_grade": 71.5,
+      "attendance_pct": 87.5,
+      "status": "At Risk",
+      "reasons": [
+        "Academic Struggle"
+      ],
+      "recommendation": "Enroll in tutoring for Database Systems."
+    },
+    {
+      "student_id": "S005",
+      "name": "John Smith",
+      "courses": [
+        {
+          "course_code": "ENG101",
+          "course_name": "English Composition",
+          "grade": 70.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "BU101",
+          "course_name": "Business Management",
+          "grade": 67.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "MK101",
+          "course_name": "Marketing Basics",
+          "grade": 68.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "CS101",
+          "course_name": "Intro to Computer Science",
+          "grade": null,
+          "status": "enrolled"
+        }
+      ],
+      "avg_grade": 68.33,
+      "attendance_pct": 87.5,
+      "status": "At Risk",
+      "reasons": [
+        "Academic Struggle"
+      ],
+      "recommendation": "Enroll in tutoring for Business Management."
+    },
+    {
+      "student_id": "S006",
+      "name": "Ganaa Bataa",
+      "courses": [
+        {
+          "course_code": "DB101",
+          "course_name": "Database Systems",
+          "grade": 75.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "CS101",
+          "course_name": "Intro to Computer Science",
+          "grade": 80.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "DS201",
+          "course_name": "Data Analysis",
+          "grade": 86.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "ENG101",
+          "course_name": "English Composition",
+          "grade": null,
+          "status": "enrolled"
+        }
+      ],
+      "avg_grade": 80.33,
+      "attendance_pct": 95.0,
+      "status": "Good Standing",
+      "reasons": [],
+      "recommendation": "Continue current study habits; explore advanced electives."
+    },
+    {
+      "student_id": "S007",
+      "name": "Dulmaa Umaa",
+      "courses": [
+        {
+          "course_code": "AI301",
+          "course_name": "Artificial Intelligence",
+          "grade": null,
+          "status": "enrolled"
+        },
+        {
+          "course_code": "DS201",
+          "course_name": "Data Analysis",
+          "grade": null,
+          "status": "enrolled"
+        },
+        {
+          "course_code": "MK101",
+          "course_name": "Marketing Basics",
+          "grade": 92.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "DB101",
+          "course_name": "Database Systems",
+          "grade": 72.0,
+          "status": "completed"
+        }
+      ],
+      "avg_grade": 82.0,
+      "attendance_pct": 82.5,
+      "status": "At Risk",
+      "reasons": [
+        "Attendance Warning"
+      ],
+      "recommendation": "Schedule immediate meeting with student counselor regarding attendance."
+    },
+    {
+      "student_id": "S010",
+      "name": "Boldoo Test",
+      "courses": [
+        {
+          "course_code": "DS201",
+          "course_name": "Data Analysis",
+          "grade": null,
+          "status": "enrolled"
+        },
+        {
+          "course_code": "MK101",
+          "course_name": "Marketing Basics",
+          "grade": null,
+          "status": "enrolled"
+        },
+        {
+          "course_code": "DB101",
+          "course_name": "Database Systems",
+          "grade": 93.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "ENG101",
+          "course_name": "English Composition",
+          "grade": null,
+          "status": "enrolled"
+        }
+      ],
+      "avg_grade": 93.0,
+      "attendance_pct": 92.5,
+      "status": "Good Standing",
+      "reasons": [],
+      "recommendation": "Continue current study habits; explore advanced electives."
+    },
+    {
+      "student_id": "S011",
+      "name": "Ganaa Test",
+      "courses": [
+        {
+          "course_code": "BU101",
+          "course_name": "Business Management",
+          "grade": 82.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "DS201",
+          "course_name": "Data Analysis",
+          "grade": 83.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "DB101",
+          "course_name": "Database Systems",
+          "grade": 66.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "AI301",
+          "course_name": "Artificial Intelligence",
+          "grade": null,
+          "status": "enrolled"
+        }
+      ],
+      "avg_grade": 77.0,
+      "attendance_pct": 90.0,
+      "status": "Good Standing",
+      "reasons": [],
+      "recommendation": "Continue current study habits; explore advanced electives."
+    },
+    {
+      "student_id": "S012",
+      "name": "Bataa Munkh",
+      "courses": [
+        {
+          "course_code": "MK101",
+          "course_name": "Marketing Basics",
+          "grade": null,
+          "status": "enrolled"
+        },
+        {
+          "course_code": "AI301",
+          "course_name": "Artificial Intelligence",
+          "grade": 84.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "DB101",
+          "course_name": "Database Systems",
+          "grade": 69.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "CS101",
+          "course_name": "Intro to Computer Science",
+          "grade": 76.0,
+          "status": "completed"
+        }
+      ],
+      "avg_grade": 76.33,
+      "attendance_pct": 87.5,
+      "status": "Good Standing",
+      "reasons": [],
+      "recommendation": "Continue current study habits; explore advanced electives."
+    },
+    {
+      "student_id": "S013",
+      "name": "Anu Erdene",
+      "courses": [
+        {
+          "course_code": "CS101",
+          "course_name": "Intro to Computer Science",
+          "grade": null,
+          "status": "enrolled"
+        },
+        {
+          "course_code": "ENG101",
+          "course_name": "English Composition",
+          "grade": 87.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "CS102",
+          "course_name": "Data Structures",
+          "grade": 74.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "MK101",
+          "course_name": "Marketing Basics",
+          "grade": 78.0,
+          "status": "completed"
+        }
+      ],
+      "avg_grade": 79.67,
+      "attendance_pct": 100.0,
+      "status": "Good Standing",
+      "reasons": [],
+      "recommendation": "Continue current study habits; explore advanced electives."
+    },
+    {
+      "student_id": "S014",
+      "name": "Temuulen Bat",
+      "courses": [
+        {
+          "course_code": "ENG101",
+          "course_name": "English Composition",
+          "grade": 86.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "AI301",
+          "course_name": "Artificial Intelligence",
+          "grade": 76.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "MK101",
+          "course_name": "Marketing Basics",
+          "grade": null,
+          "status": "enrolled"
+        },
+        {
+          "course_code": "CS101",
+          "course_name": "Intro to Computer Science",
+          "grade": 92.0,
+          "status": "completed"
+        }
+      ],
+      "avg_grade": 84.67,
+      "attendance_pct": 80.0,
+      "status": "At Risk",
+      "reasons": [
+        "Attendance Warning"
+      ],
+      "recommendation": "Schedule immediate meeting with student counselor regarding attendance."
+    },
+    {
+      "student_id": "S015",
+      "name": "Nomin Saran",
+      "courses": [
+        {
+          "course_code": "CS102",
+          "course_name": "Data Structures",
+          "grade": 88.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "DB101",
+          "course_name": "Database Systems",
+          "grade": 81.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "CS101",
+          "course_name": "Intro to Computer Science",
+          "grade": 80.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "BU101",
+          "course_name": "Business Management",
+          "grade": null,
+          "status": "enrolled"
+        }
+      ],
+      "avg_grade": 83.0,
+      "attendance_pct": 87.5,
+      "status": "Good Standing",
+      "reasons": [],
+      "recommendation": "Continue current study habits; explore advanced electives."
+    },
+    {
+      "student_id": "S016",
+      "name": "Otgonbayar Dash",
+      "courses": [
+        {
+          "course_code": "BU101",
+          "course_name": "Business Management",
+          "grade": 88.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "CS101",
+          "course_name": "Intro to Computer Science",
+          "grade": null,
+          "status": "enrolled"
+        },
+        {
+          "course_code": "ENG101",
+          "course_name": "English Composition",
+          "grade": 95.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "MK101",
+          "course_name": "Marketing Basics",
+          "grade": 78.0,
+          "status": "completed"
+        }
+      ],
+      "avg_grade": 87.0,
+      "attendance_pct": 87.5,
+      "status": "Good Standing",
+      "reasons": [],
+      "recommendation": "Continue current study habits; explore advanced electives."
+    },
+    {
+      "student_id": "S017",
+      "name": "Suvd Purev",
+      "courses": [
+        {
+          "course_code": "DS201",
+          "course_name": "Data Analysis",
+          "grade": 80.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "MK101",
+          "course_name": "Marketing Basics",
+          "grade": 82.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "ENG101",
+          "course_name": "English Composition",
+          "grade": null,
+          "status": "enrolled"
+        },
+        {
+          "course_code": "CS101",
+          "course_name": "Intro to Computer Science",
+          "grade": 98.0,
+          "status": "completed"
+        }
+      ],
+      "avg_grade": 86.67,
+      "attendance_pct": 90.0,
+      "status": "Good Standing",
+      "reasons": [],
+      "recommendation": "Continue current study habits; explore advanced electives."
+    },
+    {
+      "student_id": "S018",
+      "name": "Erkhem Bayar",
+      "courses": [
+        {
+          "course_code": "BU101",
+          "course_name": "Business Management",
+          "grade": 76.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "ENG101",
+          "course_name": "English Composition",
+          "grade": 96.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "CS102",
+          "course_name": "Data Structures",
+          "grade": 95.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "DS201",
+          "course_name": "Data Analysis",
+          "grade": null,
+          "status": "enrolled"
+        }
+      ],
+      "avg_grade": 89.0,
+      "attendance_pct": 82.5,
+      "status": "At Risk",
+      "reasons": [
+        "Attendance Warning"
+      ],
+      "recommendation": "Schedule immediate meeting with student counselor regarding attendance."
+    },
+    {
+      "student_id": "S019",
+      "name": "Delger Khan",
+      "courses": [
+        {
+          "course_code": "DS201",
+          "course_name": "Data Analysis",
+          "grade": null,
+          "status": "enrolled"
+        },
+        {
+          "course_code": "DB101",
+          "course_name": "Database Systems",
+          "grade": 85.0,
+          "status": "completed"
+        },
+        {
+          "course_code": "CS102",
+          "course_name": "Data Structures",
+          "grade": null,
+          "status": "enrolled"
+        },
+        {
+          "course_code": "AI301",
+          "course_name": "Artificial Intelligence",
+          "grade": null,
+          "status": "enrolled"
+        }
+      ],
+      "avg_grade": 85.0,
+      "attendance_pct": 90.0,
+      "status": "Good Standing",
+      "reasons": [],
+      "recommendation": "Continue current study habits; explore advanced electives."
+    }
+  ],
+  "priority_interventions": [
+    {
+      "priority": 2,
+      "student_id": "S005",
+      "name": "John Smith",
+      "status": "At Risk",
+      "primary_reason": "Academic Struggle",
+      "recommendation": "Enroll in tutoring for Business Management."
+    },
+    {
+      "priority": 2,
+      "student_id": "S004",
+      "name": "Emily Davis",
+      "status": "At Risk",
+      "primary_reason": "Academic Struggle",
+      "recommendation": "Enroll in tutoring for Database Systems."
+    },
+    {
+      "priority": 2,
+      "student_id": "S003",
+      "name": "Michael Chen",
+      "status": "At Risk",
+      "primary_reason": "Attendance Warning",
+      "recommendation": "Schedule immediate meeting with student counselor regarding attendance."
+    },
+    {
+      "priority": 2,
+      "student_id": "S007",
+      "name": "Dulmaa Umaa",
+      "status": "At Risk",
+      "primary_reason": "Attendance Warning",
+      "recommendation": "Schedule immediate meeting with student counselor regarding attendance."
+    },
+    {
+      "priority": 2,
+      "student_id": "S014",
+      "name": "Temuulen Bat",
+      "status": "At Risk",
+      "primary_reason": "Attendance Warning",
+      "recommendation": "Schedule immediate meeting with student counselor regarding attendance."
+    },
+    {
+      "priority": 2,
+      "student_id": "S018",
+      "name": "Erkhem Bayar",
+      "status": "At Risk",
+      "primary_reason": "Attendance Warning",
+      "recommendation": "Schedule immediate meeting with student counselor regarding attendance."
+    }
+  ]
+}

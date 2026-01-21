@@ -15,7 +15,7 @@ from api.middleware.error_handler import (
     general_exception_handler,
     http_exception_handler
 )
-from api.routes import chat, recommendations, analysis, students, predictions
+from api.routes import chat, recommendations, analysis, students, predictions, student_audit
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from fastapi.exceptions import RequestValidationError, HTTPException
@@ -135,6 +135,10 @@ if settings.ENABLE_STUDENTS:
 if settings.ENABLE_PREDICTIONS:
     app.include_router(predictions.router)
     logger.info("Prediction routes enabled")
+
+# Audit routes (Always enabled)
+app.include_router(student_audit.router)
+logger.info("Audit routes enabled")
 
 
 @app.get("/", tags=["Health"])

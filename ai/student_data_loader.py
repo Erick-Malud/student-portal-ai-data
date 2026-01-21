@@ -69,7 +69,7 @@ class StudentDataLoader:
             try:
                 with conn.cursor(dictionary=True) as cur:
                     cur.execute("""
-                        SELECT student_id, name, age, course, email
+                        SELECT id, student_id, name, age, course, email
                         FROM students
                         ORDER BY id
                     """)
