@@ -48,6 +48,11 @@ class StudentDataLoader:
                 self._load_from_json()
         else:
             self._load_from_json()
+             # ---- Normalize student_id -> id for internal consistency ----
+        for student in self.students:
+            if 'id' not in student:
+                if 'student_id' in student:
+                    student['id'] = student['student_id']
         
         return self.students
     
@@ -68,12 +73,43 @@ class StudentDataLoader:
             conn = get_connection()
             try:
                 with conn.cursor(dictionary=True) as cur:
+                    # 1. Fetch Students
                     cur.execute("""
                         SELECT id, student_id, name, age, course, email
                         FROM students
                         ORDER BY id
                     """)
                     rows = cur.fetchall()
+                    
+                    # 2. Fetch Grades & Courses for each student
+                    for student in rows:
+                        student_db_id = student['id']
+                        
+                        # Initialize fields
+                        student['grades'] = {}
+                        student['courses'] = []
+                        
+                        # Fetch enrollments with course codes
+                        cur.execute("""
+                            SELECT c.course_code, e.grade, e.status
+                            FROM enrollments e
+                            JOIN courses c ON e.course_id = c.id
+                            WHERE e.student_id = %s
+                        """, (student_db_id,))
+                        
+                        enrollments = cur.fetchall()
+                        
+                        for enroll in enrollments:
+                            code = enroll['course_code']
+                            grade = enroll['grade']
+                            
+                            # Add to course list
+                            student['courses'].append(code)
+                            
+                            # Add to grades if exists
+                            if grade is not None:
+                                student['grades'][code] = grade
+                    
                     self.students = rows
             finally:
                 conn.close()

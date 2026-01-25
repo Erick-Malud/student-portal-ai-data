@@ -81,6 +81,8 @@ class AIStudentAdvisor:
         # Initialize context manager
         self.context_manager = ContextManager(max_history=10)
         self.context = self.context_manager  # keep old name working in other methods
+        self.current_student_id = None
+
         print("✓ Context manager initialized")
 
         
@@ -109,6 +111,10 @@ class AIStudentAdvisor:
             student_id = student_id_or_message
 
         # ---- Load student context if student_id provided ----
+        if student_id is not None and isinstance(student_id, str):
+            s = student_id.strip()
+            if s.isdigit():
+                student_id = int(s)
         if student_id is not None:
             student_stats = self.data_loader.calculate_student_stats(student_id)
 
@@ -180,26 +186,61 @@ class AIStudentAdvisor:
         """Detect intent from user message using simple keyword matching."""
         if not message:
             return "UNKNOWN"
-        msg = message.lower()
-        
-        if any(w in msg for w in ["next", "take next", "what courses", "recommend course", "recommendation", "semester"]):
-            if "plan" in msg or "schedule" in msg or "timetable" in msg or "load" in msg:
-                return "SEMESTER_PLAN"
-            return "NEXT_COURSES"
-        
+
+        msg = message.lower().strip()
+
+        # --- 1) DATA-SPECIFIC INTENTS (highest priority) ---
+        grade_words = ["grade", "grades", "gpa", "mark", "marks", "score", "scores", "result", "results"]
+        if any(w in msg for w in grade_words):
+            return "GRADES"
+
+        attendance_words = ["attendance", "absent", "present", "late", "missed", "missed class", "miss classes"]
+        if any(w in msg for w in attendance_words):
+            return "ATTENDANCE"
+
+        enrollment_words = ["enrol", "enroll", "enrollment", "enrolment", "registered", "registration", "how many courses"]
+        if any(w in msg for w in enrollment_words):
+            return "ENROLLMENTS"
+
+        # Courses: enrolled courses / current courses / subjects / units
+        courses_words = ["courses", "course", "subjects", "subject", "units", "unit", "classes", "class"]
+        if any(w in msg for w in courses_words):
+            # If it's clearly asking to RECOMMEND next courses
+            recommend_words = ["recommend", "recommendation", "suggest", "next", "take next", "what should i take"]
+            if any(w in msg for w in recommend_words):
+                return "NEXT_COURSES"
+            return "COURSES"
+
+        # --- 2) PLANNING / CAREER / OTHER ---
         if any(w in msg for w in ["plan", "semester plan", "timetable", "schedule", "workload"]):
             return "SEMESTER_PLAN"
-            
+
         if any(w in msg for w in ["career", "job", "future", "internship", "employability", "skills", "work"]):
             return "CAREER"
-            
+
         if any(w in msg for w in ["challenging", "hard", "easy", "advanced", "difficulty", "struggle", "fail"]):
             return "DIFFICULTY"
-            
-        if any(w in msg for w in ["progress", "performance", "improve", "grades", "study", "analysis"]):
+
+        if any(w in msg for w in ["progress", "performance", "improve", "study", "analysis"]):
             return "PROGRESS"
-            
+
         return "UNKNOWN"
+    
+    def _extract_course_code(self, message: str) -> Optional[str]:
+        """
+        Extract a course code like DS101, CS101, MATH101 from user message.
+        """
+        if not message:
+            return None
+
+        import re
+        m = re.search(r"\b([A-Za-z]{2,6}\d{2,4})\b", message.strip())
+        if not m:
+            return None
+
+        return m.group(1).upper()
+
+
 
     def _generate_mock_response(self, student_id: Optional[str], user_message: str) -> Dict[str, Any]:
         """
@@ -251,12 +292,21 @@ class AIStudentAdvisor:
         # Extract details
         name = student.get('name', 'Student')
         major = student.get('course', 'Generic Major')
-        enrolled_courses = student.get('enrolled_courses', [])
-        # Ensure it's a list
-        if not isinstance(enrolled_courses, list):
-            enrolled_courses = []
-            
-        count = len(enrolled_courses)
+                # Normalize major to match catalog keys
+        major_key = "IT"
+        m = str(major).lower()
+        if "data" in m:
+            major_key = "Data"
+        elif "business" in m or "management" in m or "commerce" in m:
+            major_key = "Business"
+        elif "it" in m or "information" in m or "computer" in m or "software" in m:
+            major_key = "IT"
+
+        courses = student.get("courses", []) or []
+        if not isinstance(courses, list):
+            courses = []
+        count = len(courses)
+
         
         # 4. Determine Performance Status
         if count <= 2:
@@ -300,7 +350,7 @@ class AIStudentAdvisor:
         openers = [f"Hi {name}!", f"Hello {name}.", f"Welcome back, {name}!", f"Good to see you, {name}."]
         opener = random.choice(openers)
         
-        potential_courses = course_catalog.get(major, course_catalog["IT"])
+        potential_courses = course_catalog.get(major_key, course_catalog["IT"])
         
         # Filter Logic Helper
         def get_suggestions(count_needed):
@@ -316,21 +366,105 @@ class AIStudentAdvisor:
 
         suggested = []
         
-        # --- BRANCHES ---
-        
-        if intent == "NEXT_COURSES":
+                # --- BRANCHES (DATA-FIRST) ---
+
+        if intent == "GRADES":
+            grades = student.get("grades", {}) or {}
+            course_code = self._extract_course_code(user_message or "")
+
+            if not isinstance(grades, dict) or not grades:
+                response_msg = f"{opener} I couldn't find any grade records for you yet."
+                recommendations = ["Ask your admin to upload grades"]
+                suggested = []
+
+            else:
+                # If user asked about a specific course code, answer that only
+                if course_code and course_code in grades:
+                    mark = grades[course_code]
+                    response_msg = f"{opener} Your grade for {course_code} is {mark}."
+                    # quick guidance based on mark
+                    if mark >= 85:
+                        recommendations = ["Excellent result — keep doing practice questions", "Try an advanced project to stretch skills"]
+                    elif mark >= 70:
+                        recommendations = ["Good progress — revise weak topics weekly", "Do 2–3 practice tasks before each class"]
+                    else:
+                        recommendations = ["Book tutor/consultation hours", "Create a 2-week catch-up plan and review basics first"]
+                    suggested = []
+                else:
+                    # Otherwise show all grades + average
+                    avg = sum(grades.values()) / len(grades)
+                    grade_lines = [f"{k}: {v}" for k, v in sorted(grades.items())]
+                    response_msg = f"{opener} Here are your grades: " + ", ".join(grade_lines) + f". Your average is {avg:.1f}."
+                    # Identify lowest subject
+                    lowest = min(grades.items(), key=lambda x: x[1])
+                    recommendations = [
+                        f"Lowest subject: {lowest[0]} ({lowest[1]}) — focus here first",
+                        "Keep a weekly revision plan",
+                        "Ask: 'How can I improve my lowest grade?'"
+                    ]
+                    suggested = []
+
+
+        elif intent == "COURSES":
+            courses = student.get("courses", []) or []
+            if not isinstance(courses, list):
+                courses = []
+            response_msg = f"{opener} You are enrolled in {len(courses)} course(s): {', '.join(courses) if courses else 'No courses found.'}"
+            recommendations = ["Ask: 'What are my grades?'", "Ask: 'How many courses am I enrolled in?'"]
+            suggested = []
+
+        elif intent == "ENROLLMENTS":
+            courses = student.get("courses", []) or []
+            if not isinstance(courses, list):
+                courses = []
+            response_msg = f"{opener} Your current enrollment count is {len(courses)}."
+            if courses:
+                response_msg += f" Enrolled courses: {', '.join(courses)}."
+            recommendations = ["Keep your workload balanced", "Check prerequisites before adding new courses"]
+            suggested = []
+
+        elif intent == "ATTENDANCE":
+            att = student.get("attendance")
+
+            if isinstance(att, dict) and att.get("total_classes"):
+                total = int(att.get("total_classes", 0))
+                attended = int(att.get("attended", 0))
+                late = int(att.get("late", 0))
+                absent = int(att.get("absent", max(total - attended, 0)))
+
+                rate = (attended / total) * 100 if total > 0 else 0.0
+
+                response_msg = (
+                    f"{opener} Your attendance rate is {rate:.1f}% "
+                    f"({attended}/{total} attended). Late: {late}, Absent: {absent}."
+                )
+
+                # Simple advice by rate
+                if rate >= 90:
+                    recommendations = ["Great consistency — keep it up", "Keep reviewing notes after each class"]
+                elif rate >= 80:
+                    recommendations = ["Good attendance — aim for 90%+", "Plan study blocks on days you miss class"]
+                else:
+                    recommendations = ["Attendance is a risk factor — prioritize class time", "Talk to your advisor if there are barriers"]
+            else:
+                response_msg = f"{opener} I can't find attendance data for you yet."
+                recommendations = ["Ask admin to add attendance records to the dataset"]
+
+            suggested = []
+
+
+        elif intent == "NEXT_COURSES":
             sugg = get_suggestions(3)
-            # Reformat for consistent output
             suggested = [{
                 "course_code": c['code'],
                 "course_name": c['name'],
                 "department": c['dept']
             } for c in sugg]
-            
+
             response_msg = f"{opener} Based on your major in {major}, I recommend focusing on core technical skills."
             if suggested:
-                 response_msg += f" {suggested[0]['course_name']} would be a great next step."
-            
+                response_msg += f" {suggested[0]['course_name']} would be a great next step."
+
             recommendations = [
                 "Prioritize core major requirements first",
                 "Consider one cross-disciplinary elective",
@@ -348,7 +482,7 @@ class AIStudentAdvisor:
             else:
                 response_msg += " This is a balanced workload. You are on a good path."
                 recommendations = ["Maintain current pace", "Start projects early", "Balance study/life"]
-                
+
             sugg = get_suggestions(3)
             suggested = [{"course_code": c['code'], "course_name": c['name'], "department": c['dept']} for c in sugg]
 
@@ -359,46 +493,45 @@ class AIStudentAdvisor:
                 "Business": "strategic management, financial analysis, and communication"
             }
             career_focus = skills.get(major, "professional skills")
-            
+
             response_msg = f"{opener} To build a career in {major}, you should focus on {career_focus}."
             recommendations = [
                 "Build a portfolio of projects",
                 "Look for summer internships",
                 "Attend industry networking events"
             ]
-            
-            sugg = get_suggestions(3) 
-            suggested = [{"course_code": c['code'], "course_name": c['name'], "department": c['dept']} for c in sugg]
 
+            sugg = get_suggestions(3)
+            suggested = [{"course_code": c['code'], "course_name": c['name'], "department": c['dept']} for c in sugg]
 
         elif intent == "DIFFICULTY":
             if status == "excelling":
                 response_msg = f"{opener} Since you are excelling, you might enjoy more challenging project-based courses."
                 recommendations = ["Take an Advanced level course", "Join a research lab", "Compete in hackathons"]
             else:
-                 response_msg = f"{opener} If you are finding things difficult, focus on mastering the basics before moving on."
-                 recommendations = ["Attend office hours", "Use the tutoring center", "Review foundational material"]
-            
+                response_msg = f"{opener} If you are finding things difficult, focus on mastering the basics before moving on."
+                recommendations = ["Attend office hours", "Use the tutoring center", "Review foundational material"]
+
             sugg = get_suggestions(2)
             suggested = [{"course_code": c['code'], "course_name": c['name'], "department": c['dept']} for c in sugg]
 
         elif intent == "PROGRESS":
             response_msg = f"{opener} You have {count} active enrollments. "
             if status == "at_risk":
-                 response_msg += "We need to improve your engagement. What subject are you struggling with most?"
+                response_msg += "We need to improve your engagement. What subject are you struggling with most?"
             elif status == "excelling":
-                 response_msg += "Your performance is excellent! Keep up the great work."
+                response_msg += "Your performance is excellent! Keep up the great work."
             else:
-                 response_msg += "You are making steady progress."
-            
+                response_msg += "You are making steady progress."
+
             recommendations = ["Review weekly goals", "Track your study hours", "Meet with your academic advisor"]
             suggested = []
 
-        else: # UNKNOWN
-            response_msg = f"{opener} I'm your AI advisor. I can help with course selection, semester planning, or career advice. Currently you have {count} courses."
-            recommendations = ["Ask about 'next semester courses'", "Ask for a 'study plan'", "Ask about 'career skills'"]
-            sugg = get_suggestions(2)
-            suggested = [{"course_code": c['code'], "course_name": c['name'], "department": c['dept']} for c in sugg]
+        else:  # UNKNOWN
+            response_msg = f"{opener} I'm your AI advisor. I can help with grades, courses, enrollments, semester planning, or career advice."
+            recommendations = ["Ask: 'What are my grades?'", "Ask: 'What courses am I enrolled in?'", "Ask: 'How many courses am I enrolled in?'"]
+            suggested = []
+
 
         # 7. Construct Final Response
         result = {
@@ -441,11 +574,25 @@ class AIStudentAdvisor:
         Returns:
             Detailed analysis text
         """
-        # Get student data
-        if isinstance(student_id_or_name, int):
-            student = self.data_loader.get_student_by_id(student_id_or_name)
+        # Get student data (supports numeric IDs and codes like "S002")
+        value = student_id_or_name
+
+        # numeric string -> int
+        if isinstance(value, str):
+            v = value.strip()
+            if v.isdigit():
+                value = int(v)
+
+        if isinstance(value, int):
+            student = self.data_loader.get_student_by_id(value)
         else:
-            student = self.data_loader.get_student_by_name(str(student_id_or_name))
+            # If it looks like an ID code (e.g., S002), try ID lookup first
+            text = str(value).strip()
+            if text.upper().startswith("S") and text[1:].isdigit():
+                student = self.data_loader.get_student_by_id(text.upper())
+            else:
+                student = self.data_loader.get_student_by_name(text)
+
         
         if not student:
             return f"❌ Student not found: {student_id_or_name}"
@@ -472,15 +619,24 @@ class AIStudentAdvisor:
                                          ml_insights.get('prediction') if ml_insights else None)
         
         # Get AI analysis
-        analysis = self.chat(analysis_query)
+        analysis = self.chat(student_id, analysis_query)
         
         # Add ML recommendations if available
         if ml_insights and 'recommendations' in ml_insights:
-            analysis += "\n\n📋 **Recommended Actions:**\n"
-            for i, rec in enumerate(ml_insights['recommendations'][:5], 1):
-                analysis += f"{i}. {rec}\n"
-        
+            top_recs = ml_insights['recommendations'][:5]
+
+            if isinstance(analysis, dict):
+                # JSON mode (mock / API-style)
+                analysis.setdefault("ml_recommendations", [])
+                analysis["ml_recommendations"].extend(top_recs)
+            else:
+                # Text mode (real OpenAI response)
+                analysis += "\n\n📋 **Recommended Actions:**\n"
+                for i, rec in enumerate(top_recs, 1):
+                    analysis += f"{i}. {rec}\n"
+
         return analysis
+
     
     def recommend_for_student(self, student_id: int) -> str:
         """
@@ -515,17 +671,24 @@ class AIStudentAdvisor:
         
         # Ask AI for personalized recommendations
         query = f"Generate personalized academic recommendations for {student_stats['name']}"
-        ai_recommendations = self.chat(query)
+        ai_recommendations = self.chat(student_id,query)
         
-        # Combine ML and AI recommendations
+        # Combine ML and AI recommendations (supports dict or str)
         result = ai_recommendations
-        
+
         if recommendations:
-            result += "\n\n📊 **Data-Driven Recommendations:**\n"
-            for i, rec in enumerate(recommendations[:5], 1):
-                result += f"{i}. {rec}\n"
-        
+            if isinstance(result, dict):
+                # Add ML recs into JSON payload
+                result.setdefault("ml_recommendations", [])
+                result["ml_recommendations"].extend(recommendations[:5])
+            else:
+                # Text mode
+                result += "\n\n📊 **Data-Driven Recommendations:**\n"
+                for i, rec in enumerate(recommendations[:5], 1):
+                    result += f"{i}. {rec}\n"
+
         return result
+
     
     def compare_students(self, student_ids: List[int]) -> str:
         """
@@ -620,6 +783,13 @@ class AIStudentAdvisor:
                 
                 if not user_input:
                     continue
+
+                # If user types an ID like S002, set it as current student context
+                if user_input.upper().startswith("S") and user_input[1:].isdigit():
+                    self.current_student_id = user_input.upper()
+                    print(f"\n✓ Current student set to {self.current_student_id}. Now ask questions like: 'What are my grades?'")
+                    continue
+
                 
                 # Handle commands
                 if user_input.startswith('/'):
@@ -637,22 +807,18 @@ class AIStudentAdvisor:
                         print(response)
                     
                     elif command == '/analyze' and arg:
-                        try:
-                            student_id = int(arg)
-                            print(f"\n🤖 AI: Analyzing student {student_id}...\n")
-                            response = self.analyze_student(student_id)
-                            print(response)
-                        except ValueError:
-                            print("❌ /analyze requires a numeric student ID")
+                        student_id = arg.strip()
+                        print(f"\n🤖 AI: Analyzing student {student_id}...\n")
+                        response = self.analyze_student(student_id)
+                        print(response)
+
                     
                     elif command == '/recommend' and arg:
-                        try:
-                            student_id = int(arg)
-                            print(f"\n🤖 AI: Generating recommendations...\n")
-                            response = self.recommend_for_student(student_id)
-                            print(response)
-                        except ValueError:
-                            print("❌ /recommend requires a numeric student ID")
+                        student_id = arg.strip()
+                        print(f"\n🤖 AI: Generating recommendations...\n")
+                        response = self.recommend_for_student(student_id)
+                        print(response)
+
                     
                     elif command == '/stats':
                         print("\n🤖 AI: Calculating statistics...\n")
@@ -675,15 +841,40 @@ class AIStudentAdvisor:
                 
                 else:
                     # Regular chat
-                    print("\n🤖 AI: ", end="")
-                    response = self.chat(user_input)
-                    print(response)
+                    print("\n🤖 AI:")
+                    if self.current_student_id:
+                        response = self.chat(self.current_student_id, user_input)
+                    else:
+                        response = self.chat(user_input)
+
+
+                    if isinstance(response, dict):
+                        self._pretty_print(response)
+                    else:
+                        print(response)
+
+
             
             except KeyboardInterrupt:
                 print("\n\n👋 Thanks for using AI Student Advisor!")
                 break
             except Exception as e:
                 print(f"\n❌ Error: {e}")
+
+
+    def _pretty_print(self, response: Dict[str, Any]):
+        print(response.get("response", ""))
+
+        if response.get("recommendations"):
+            print("\n💡 Advisor Tips")
+            for r in response["recommendations"]:
+                print(f"  • {r}")
+
+        if response.get("suggested_courses"):
+            print("\n📚 Suggested Courses")
+            for c in response["suggested_courses"]:
+                print(f"  • {c['course_code']} – {c['course_name']} ({c['department']})")
+
 
 
 def main():

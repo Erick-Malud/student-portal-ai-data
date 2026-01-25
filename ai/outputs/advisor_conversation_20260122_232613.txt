@@ -1,0 +1,7 @@
+=== SESSION SUMMARY ===
+Duration: 1 minutes
+Total Queries: 1
+Students Discussed: 0
+Messages in History: 0
+
+No conversation history.

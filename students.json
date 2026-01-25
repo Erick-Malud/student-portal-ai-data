@@ -5,6 +5,19 @@
     "age": 22,
     "course": "Data",
     "email": "sara.lee@example.com",
+    "courses": ["DS101", "CS101", "MATH101", "ENGL101", "DS201"],
+    "grades": {
+        "DS101": 88,
+        "CS101": 92,
+        "MATH101": 85,
+        "ENGL101": 78
+    },
+    "attendance": {
+        "total_classes": 20,
+        "attended": 17,
+        "late": 1,
+        "absent": 2
+      },
     "enrolled_courses": [
       "Data"
     ]
