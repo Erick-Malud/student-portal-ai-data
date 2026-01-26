@@ -5,19 +5,25 @@
     "age": 22,
     "course": "Data",
     "email": "sara.lee@example.com",
-    "courses": ["DS101", "CS101", "MATH101", "ENGL101", "DS201"],
+    "courses": [
+      "DS101",
+      "CS101",
+      "MATH101",
+      "ENGL101",
+      "DS201"
+    ],
     "grades": {
-        "DS101": 88,
-        "CS101": 92,
-        "MATH101": 85,
-        "ENGL101": 78
+      "DS101": 88,
+      "CS101": 92,
+      "MATH101": 85,
+      "ENGL101": 78
     },
     "attendance": {
-        "total_classes": 20,
-        "attended": 17,
-        "late": 1,
-        "absent": 2
-      },
+      "total_classes": 20,
+      "attended": 17,
+      "late": 1,
+      "absent": 2
+    },
     "enrolled_courses": [
       "Data"
     ]
@@ -27,104 +33,429 @@
     "name": "Michael Chen",
     "age": 25,
     "course": "Business",
-    "email": "michael.chen@example.com"
+    "email": "michael.chen@example.com",
+    "courses": [
+      "BUS101",
+      "MGMT201",
+      "ACC101",
+      "BUS201"
+    ],
+    "grades": {
+      "BUS101": 76,
+      "MGMT201": 70,
+      "ACC101": 68,
+      "BUS201": 96
+    },
+    "attendance": {
+      "total_classes": 20,
+      "attended": 13,
+      "late": 3,
+      "absent": 7
+    },
+    "enrolled_courses": [
+      "Business"
+    ]
   },
   {
     "student_id": "S004",
     "name": "Emily Davis",
     "age": 21,
     "course": "IT",
-    "email": "emily.davis@example.com"
+    "email": "emily.davis@example.com",
+    "courses": [
+      "IT101",
+      "DB101",
+      "IT201",
+      "MATH101"
+    ],
+    "grades": {
+      "IT101": 94,
+      "DB101": 63,
+      "IT201": 97,
+      "MATH101": 74
+    },
+    "attendance": {
+      "total_classes": 20,
+      "attended": 20,
+      "late": 3,
+      "absent": 0
+    },
+    "enrolled_courses": [
+      "IT"
+    ]
   },
   {
     "student_id": "S005",
     "name": "John Smith",
     "age": 23,
     "course": "English",
-    "email": "john.smith@example.com"
+    "email": "john.smith@example.com",
+    "courses": [
+      "WRIT201",
+      "COMM101",
+      "LIT101",
+      "ENGL101"
+    ],
+    "grades": {
+      "WRIT201": 72,
+      "COMM101": 89,
+      "LIT101": 83,
+      "ENGL101": 79
+    },
+    "attendance": {
+      "total_classes": 20,
+      "attended": 14,
+      "late": 1,
+      "absent": 6
+    },
+    "enrolled_courses": [
+      "English"
+    ]
   },
   {
     "student_id": "S006",
     "name": "Ganaa Bataa",
     "age": 28,
     "course": "Management",
-    "email": "ganaa@example.com"
+    "email": "ganaa@example.com",
+    "courses": [
+      "MGMT101",
+      "ECON101",
+      "HR101",
+      "COMM101",
+      "MGMT201"
+    ],
+    "grades": {
+      "MGMT101": 84,
+      "ECON101": 78,
+      "HR101": 64,
+      "COMM101": 91,
+      "MGMT201": 96
+    },
+    "attendance": {
+      "total_classes": 20,
+      "attended": 13,
+      "late": 3,
+      "absent": 7
+    },
+    "enrolled_courses": [
+      "Management"
+    ]
   },
   {
     "student_id": "S007",
     "name": "Dulmaa Umaa",
     "age": 23,
     "course": "IT",
-    "email": "dulmaa@example.com"
+    "email": "dulmaa@example.com",
+    "courses": [
+      "MATH101",
+      "CS101",
+      "DB101",
+      "NET101"
+    ],
+    "grades": {
+      "MATH101": 98,
+      "CS101": 74,
+      "DB101": 66,
+      "NET101": 64
+    },
+    "attendance": {
+      "total_classes": 20,
+      "attended": 15,
+      "late": 2,
+      "absent": 5
+    },
+    "enrolled_courses": [
+      "IT"
+    ]
   },
   {
     "student_id": "S010",
     "name": "Boldoo Test",
     "age": 30,
     "course": "IT",
-    "email": "boldoo@example.com"
+    "email": "boldoo@example.com",
+    "courses": [
+      "DB101",
+      "IT201",
+      "IT101",
+      "CS201"
+    ],
+    "grades": {
+      "DB101": 79,
+      "IT201": 91,
+      "IT101": 85,
+      "CS201": 72
+    },
+    "attendance": {
+      "total_classes": 20,
+      "attended": 17,
+      "late": 2,
+      "absent": 3
+    },
+    "enrolled_courses": [
+      "IT"
+    ]
   },
   {
     "student_id": "S011",
     "name": "Ganaa Test",
     "age": 45,
     "course": "Management",
-    "email": "ganaa@example.com"
+    "email": "ganaa@example.com",
+    "courses": [
+      "ECON101",
+      "BUS101",
+      "MGMT101",
+      "COMM101"
+    ],
+    "grades": {
+      "ECON101": 72,
+      "BUS101": 96,
+      "MGMT101": 77,
+      "COMM101": 72
+    },
+    "attendance": {
+      "total_classes": 20,
+      "attended": 19,
+      "late": 3,
+      "absent": 1
+    },
+    "enrolled_courses": [
+      "Management"
+    ]
   },
   {
     "student_id": "S012",
     "name": "Bataa Munkh",
     "age": 24,
     "course": "IT",
-    "email": "bataa.munkh@example.com"
+    "email": "bataa.munkh@example.com",
+    "courses": [
+      "NET101",
+      "DB101",
+      "MATH101",
+      "IT201",
+      "CS101"
+    ],
+    "grades": {
+      "NET101": 82,
+      "DB101": 65,
+      "MATH101": 76,
+      "IT201": 64,
+      "CS101": 82
+    },
+    "attendance": {
+      "total_classes": 20,
+      "attended": 18,
+      "late": 2,
+      "absent": 2
+    },
+    "enrolled_courses": [
+      "IT"
+    ]
   },
   {
     "student_id": "S013",
     "name": "Anu Erdene",
     "age": 22,
     "course": "Data",
-    "email": "anu.erdene@example.com"
+    "email": "anu.erdene@example.com",
+    "courses": [
+      "DS201",
+      "MATH101",
+      "DS301",
+      "ENGL101"
+    ],
+    "grades": {
+      "DS201": 93,
+      "MATH101": 87,
+      "DS301": 91,
+      "ENGL101": 71
+    },
+    "attendance": {
+      "total_classes": 20,
+      "attended": 16,
+      "late": 1,
+      "absent": 4
+    },
+    "enrolled_courses": [
+      "Data"
+    ]
   },
   {
     "student_id": "S014",
     "name": "Temuulen Bat",
     "age": 26,
     "course": "Business",
-    "email": "temuulen.bat@example.com"
+    "email": "temuulen.bat@example.com",
+    "courses": [
+      "MGMT201",
+      "ECON101",
+      "ENGL101",
+      "ACC101"
+    ],
+    "grades": {
+      "MGMT201": 89,
+      "ECON101": 87,
+      "ENGL101": 85,
+      "ACC101": 76
+    },
+    "attendance": {
+      "total_classes": 20,
+      "attended": 14,
+      "late": 3,
+      "absent": 6
+    },
+    "enrolled_courses": [
+      "Business"
+    ]
   },
   {
     "student_id": "S015",
     "name": "Nomin Saran",
     "age": 21,
     "course": "English",
-    "email": "nomin.saran@example.com"
+    "email": "nomin.saran@example.com",
+    "courses": [
+      "ENGL101",
+      "HIST101",
+      "ENGL201",
+      "LIT101"
+    ],
+    "grades": {
+      "ENGL101": 72,
+      "HIST101": 89,
+      "ENGL201": 66,
+      "LIT101": 86
+    },
+    "attendance": {
+      "total_classes": 20,
+      "attended": 18,
+      "late": 3,
+      "absent": 2
+    },
+    "enrolled_courses": [
+      "English"
+    ]
   },
   {
     "student_id": "S016",
     "name": "Otgonbayar Dash",
     "age": 29,
     "course": "IT",
-    "email": "otgonbayar.dash@example.com"
+    "email": "otgonbayar.dash@example.com",
+    "courses": [
+      "MATH101",
+      "IT101",
+      "NET101",
+      "CS101",
+      "CS201"
+    ],
+    "grades": {
+      "MATH101": 83,
+      "IT101": 69,
+      "NET101": 80,
+      "CS101": 89,
+      "CS201": 72
+    },
+    "attendance": {
+      "total_classes": 20,
+      "attended": 19,
+      "late": 0,
+      "absent": 1
+    },
+    "enrolled_courses": [
+      "IT"
+    ]
   },
   {
     "student_id": "S017",
     "name": "Suvd Purev",
     "age": 23,
     "course": "Data",
-    "email": "suvd.purev@example.com"
+    "email": "suvd.purev@example.com",
+    "courses": [
+      "MATH101",
+      "DS201",
+      "ENGL101",
+      "DS101",
+      "DS301"
+    ],
+    "grades": {
+      "MATH101": 81,
+      "DS201": 94,
+      "ENGL101": 74,
+      "DS101": 71,
+      "DS301": 85
+    },
+    "attendance": {
+      "total_classes": 20,
+      "attended": 14,
+      "late": 0,
+      "absent": 6
+    },
+    "enrolled_courses": [
+      "Data"
+    ]
   },
   {
     "student_id": "S018",
     "name": "Erkhem Bayar",
     "age": 28,
     "course": "Management",
-    "email": "erkhem.bayar@example.com"
+    "email": "erkhem.bayar@example.com",
+    "courses": [
+      "HR101",
+      "MGMT101",
+      "COMM101",
+      "MGMT201",
+      "BUS101"
+    ],
+    "grades": {
+      "HR101": 77,
+      "MGMT101": 65,
+      "COMM101": 77,
+      "MGMT201": 98,
+      "BUS101": 67
+    },
+    "attendance": {
+      "total_classes": 20,
+      "attended": 13,
+      "late": 3,
+      "absent": 7
+    },
+    "enrolled_courses": [
+      "Management"
+    ]
   },
   {
     "student_id": "S019",
     "name": "Delger Khan",
     "age": 27,
     "course": "Business",
-    "email": "delger.khan@example.com"
+    "email": "delger.khan@example.com",
+    "courses": [
+      "ENGL101",
+      "ECON101",
+      "BUS201",
+      "MGMT201"
+    ],
+    "grades": {
+      "ENGL101": 92,
+      "ECON101": 97,
+      "BUS201": 72,
+      "MGMT201": 78
+    },
+    "attendance": {
+      "total_classes": 20,
+      "attended": 20,
+      "late": 3,
+      "absent": 0
+    },
+    "enrolled_courses": [
+      "Business"
+    ]
   }
 ]
