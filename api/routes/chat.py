@@ -3,9 +3,10 @@ Chat Routes - AI Student Advisor Endpoints
 """
 
 from fastapi import APIRouter, Depends, HTTPException, Request
+from api.dependencies import get_data_loader
 from api.models import ChatRequest, ChatResponse
 from api.middleware.auth import verify_api_key, limiter
-from ai.student_advisor import AIStudentAdvisor
+from ai.student_advisor_1 import AIStudentAdvisor
 from ai.student_data_loader import StudentDataLoader
 from api.config import settings
 from student import Student
@@ -25,19 +26,7 @@ def get_advisor():
         _advisor = AIStudentAdvisor()
     return _advisor
 
-def get_data_loader():
-    """Lazy initialize data loader"""
-    global _data_loader
-    if _data_loader is None:
-        if not settings.MOCK_MODE:
-            try:
-                _data_loader = StudentDataLoader(use_database=True)
-            except Exception as e:
-                print(f"⚠️  Warning: Could not load from database: {e}, using JSON fallback")
-                _data_loader = StudentDataLoader(use_database=False)
-        else:
-             _data_loader = StudentDataLoader(use_database=False)
-    return _data_loader
+
 
 # Store active sessions (in production, use Redis or database)
 active_sessions = {}
@@ -80,6 +69,14 @@ async def chat(
                 "message_count": 0
             }
         
+        
+        # ---- Follow-up handling: make "Why?" refer to last intent ----
+        msg_norm = (chat_request.message or "").strip().lower()
+        last_intent = active_sessions.get(session_id, {}).get("last_intent")
+        if msg_norm in ["why", "why?", "how", "how?"] and last_intent and last_intent != "UNKNOWN":
+            # rewrite the message so the advisor can understand the topic deterministically
+            chat_request.message = f"why {str(last_intent).lower()}"
+
         # Get AI response
         ai_output = get_advisor().chat(chat_request.student_id, chat_request.message)
         
@@ -99,6 +96,10 @@ async def chat(
             recommendations = ai_output.get("recommendations", [])
             suggested_courses = ai_output.get("suggested_courses")
             student_summary = ai_output.get("student_summary")
+            # persist last intent for follow-up questions like "Why?"
+            _intent = (student_summary or {}).get("intent") if isinstance(student_summary, dict) else None
+            if _intent:
+                active_sessions[session_id]["last_intent"] = _intent
             mode = ai_output.get("mode")
         else:
             response_text = ai_output

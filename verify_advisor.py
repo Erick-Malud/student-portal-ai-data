@@ -1,12 +1,12 @@
 
 try:
-    from ai.student_advisor import AIStudentAdvisor
+    from ai.student_advisor_1 import AIStudentAdvisor
 except ImportError:
     # Fix python path if running from root
     import sys
     import os
     sys.path.append(os.getcwd())
-    from ai.student_advisor import AIStudentAdvisor
+    from ai.student_advisor_1 import AIStudentAdvisor
 
 def test_advisor():
     print("="*60)

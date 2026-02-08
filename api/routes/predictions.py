@@ -3,18 +3,17 @@ Prediction Routes - ML-Based Prediction Endpoints
 """
 
 from fastapi import APIRouter, Depends, HTTPException, Request
+from api.dependencies import get_data_loader
 from api.models import PerformancePredictionRequest, PerformancePredictionResponse
 from api.middleware.auth import verify_api_key, limiter
 from ai.ml_predictor import MLPredictor
-from ai.student_data_loader import StudentDataLoader
-from api.config import settings
 from student import Student
 
 router = APIRouter(prefix="/api/predict", tags=["Predictions"])
 
 # Services - lazy initialization
 _ml_predictor = None
-_data_loader = None
+
 
 def get_ml_predictor():
     """Lazy initialize ML predictor"""
@@ -27,21 +26,6 @@ def get_ml_predictor():
             _ml_predictor = None
     return _ml_predictor
 
-def get_data_loader():
-    """Lazy initialize student data loader"""
-    global _data_loader
-    if _data_loader is None:
-        if not settings.MOCK_MODE:
-            try:
-                _data_loader = StudentDataLoader(use_database=True)
-            except Exception as e:
-                print(f"[WARN] Could not load from database: {e}, using JSON fallback")
-                _data_loader = StudentDataLoader(use_database=False)
-        else:
-             _data_loader = StudentDataLoader(use_database=False)
-
-    return _data_loader
-
 
 @router.post("/performance", response_model=PerformancePredictionResponse)
 @limiter.limit("30/minute")
@@ -52,18 +36,18 @@ async def predict_performance(
 ):
     """
     Predict student performance in a course using ML models.
-    
+
     Uses trained regression models from Month 4 to predict:
     - Expected grade
     - Risk level
     - Recommendations
-    
+
     Rate limit: 30 requests per minute
     """
     try:
         # Load student data
         student_data = get_data_loader().get_student_by_id(req_body.student_id)
-        
+
         if not student_data:
             raise HTTPException(
                 status_code=404,
@@ -72,7 +56,7 @@ async def predict_performance(
                     "message": f"Student with ID {req_body.student_id} not found"
                 }
             )
-        
+
         # Create student object
         student = Student(
             student_id=req_body.student_id,
@@ -84,7 +68,7 @@ async def predict_performance(
             completed_courses=student_data.get("completed_courses", []),
             grades=student_data.get("grades", {})
         )
-        
+
         # Get predictor instance
         predictor = get_ml_predictor()
         if not predictor:
@@ -95,7 +79,7 @@ async def predict_performance(
 
         # Make prediction
         prediction = predictor.predict_performance(student, req_body.course)
-        
+
         # Determine risk level
         predicted_grade = prediction.get("predicted_grade", 70.0)
         if predicted_grade >= 85:
@@ -106,7 +90,7 @@ async def predict_performance(
             risk_level = "high"
         else:
             risk_level = "critical"
-        
+
         # Generate recommendations
         recommendations = []
         if risk_level in ["high", "critical"]:
@@ -118,10 +102,10 @@ async def predict_performance(
         else:
             recommendations.append("Course matches your skill level")
             recommendations.append("Prerequisites completed successfully")
-        
+
         # Calculate confidence
         confidence = prediction.get("confidence", 0.75)
-        
+
         return PerformancePredictionResponse(
             student_id=req_body.student_id,
             course=req_body.course,
@@ -130,7 +114,7 @@ async def predict_performance(
             risk_level=risk_level,
             recommendations=recommendations
         )
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -152,18 +136,18 @@ async def predict_at_risk(
 ):
     """
     Predict if a student is at risk of dropping out or failing.
-    
+
     Analyzes multiple factors:
     - Current GPA
     - Assignment completion rate
     - Study time
     - Engagement metrics
-    
+
     Returns risk assessment and interventions.
     """
     try:
         student_data = get_data_loader().get_student_by_id(student_id)
-        
+
         if not student_data:
             raise HTTPException(
                 status_code=404,
@@ -172,11 +156,11 @@ async def predict_at_risk(
                     "message": f"Student with ID {student_id} not found"
                 }
             )
-        
+
         # Calculate risk score based on multiple factors
         risk_score = 0.0
         factors = []
-        
+
         # GPA factor
         gpa = student_data.get("current_gpa", 80.0)
         if gpa < 60:
@@ -185,7 +169,7 @@ async def predict_at_risk(
         elif gpa < 70:
             risk_score += 0.2
             factors.append("Below average GPA")
-        
+
         # Completion rate factor
         completion_rate = student_data.get("assignment_completion_rate", 1.0)
         if completion_rate < 0.6:
@@ -194,19 +178,19 @@ async def predict_at_risk(
         elif completion_rate < 0.8:
             risk_score += 0.1
             factors.append("Moderate assignment completion")
-        
+
         # Study time factor
         study_time = student_data.get("study_time_week", 10.0)
         if study_time < 5:
             risk_score += 0.2
             factors.append("Insufficient study time")
-        
+
         # Engagement factor
         engagement = student_data.get("engagement_score", 0.8)
         if engagement < 0.5:
             risk_score += 0.1
             factors.append("Low engagement")
-        
+
         # Determine risk level
         if risk_score >= 0.7:
             risk_level = "critical"
@@ -237,7 +221,7 @@ async def predict_at_risk(
                 "Continue current approach",
                 "Maintain regular check-ins"
             ]
-        
+
         return {
             "student_id": student_id,
             "risk_level": risk_level,
@@ -247,7 +231,7 @@ async def predict_at_risk(
             "confidence": 0.85,
             "requires_immediate_action": risk_level in ["critical", "high"]
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -268,26 +252,26 @@ async def get_feature_importance(
 ):
     """
     Get feature importance from ML models.
-    
+
     Shows which factors most influence predictions:
     - GPA
     - Study time
     - Assignment completion
     - Prior course performance
     - etc.
-    
+
     Useful for understanding what drives student success.
     """
     try:
         # Get feature importance from ML predictor
         features = get_ml_predictor().get_feature_importance()
-        
+
         return {
             "features": features,
             "model_type": "Random Forest Regressor",
             "note": "Higher values indicate stronger influence on predictions"
         }
-        
+
     except Exception as e:
         raise HTTPException(
             status_code=500,
@@ -308,9 +292,9 @@ async def batch_predictions(
 ):
     """
     Predict performance for multiple courses at once.
-    
+
     Useful for comparing options or planning course load.
-    
+
     Rate limit: 10 requests per minute (computationally expensive)
     Max courses: 20
     """
@@ -323,9 +307,9 @@ async def batch_predictions(
                     "message": "Maximum 20 courses per batch request"
                 }
             )
-        
+
         # Load student
-        student_data = get_data_loader().get_student_data(student_id)
+        student_data = get_data_loader().get_student_by_id(student_id)
         if not student_data:
             raise HTTPException(
                 status_code=404,
@@ -334,20 +318,20 @@ async def batch_predictions(
                     "message": f"Student with ID {student_id} not found"
                 }
             )
-        
+
         student = Student(
             student_id=student_id,
             name=student_data["name"],
             email=student_data.get("email", f"student{student_id}@example.com")
         )
-        
+
         # Make predictions for all courses
         predictions = []
         for course in courses:
             try:
                 pred = get_ml_predictor().predict_performance(student, course)
                 predicted_grade = pred.get("predicted_grade", 70.0)
-                
+
                 predictions.append({
                     "course": course,
                     "predicted_grade": predicted_grade,
@@ -359,10 +343,10 @@ async def batch_predictions(
                     "course": course,
                     "error": "Prediction not available"
                 })
-        
+
         # Sort by predicted grade (descending)
         predictions.sort(key=lambda x: x.get("predicted_grade", 0), reverse=True)
-        
+
         return {
             "student_id": student_id,
             "predictions": predictions,
@@ -370,7 +354,7 @@ async def batch_predictions(
             "best_fit": predictions[0]["course"] if predictions else None,
             "average_predicted_grade": sum(p.get("predicted_grade", 0) for p in predictions) / len(predictions) if predictions else 0
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:

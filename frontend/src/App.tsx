@@ -199,20 +199,36 @@ function DashboardView({ studentId, studentProfile }: ViewProps) {
       )}
 
       {/* Stats Grid */}
-      <div className="stat-grid">
+      <div className="stats-grid">
         <div className="stat-card">
-          <div className="stat-value">{stats?.gpa?.toFixed(2) || "N/A"}</div>
+          <div className="stat-value">
+            {stats?.gpa !== null && stats?.gpa !== undefined ? Number(stats.gpa).toFixed(2) : "—"}
+          </div>
           <div className="stat-label">Current GPA</div>
         </div>
+
         <div className="stat-card">
-          <div className="stat-value">{stats?.academic_record?.length || 0}</div>
+          <div className="stat-value">
+            {stats?.total_courses !== undefined ? stats.total_courses : "—"}
+          </div>
           <div className="stat-label">Total Courses</div>
         </div>
+
         <div className="stat-card">
-          <div className="stat-value">{stats?.attendance?.rate || 0}%</div>
+          <div className="stat-value">
+            {stats?.attendance_rate !== undefined ? `${Number(stats.attendance_rate).toFixed(1)}%` : "—"}
+          </div>
           <div className="stat-label">Attendance Rate</div>
+
+          {/* Optional жижиг тайлбар */}
+          {stats?.attendance?.total_classes ? (
+            <div style={{ fontSize: 12, opacity: 0.75, marginTop: 6 }}>
+              {stats.attendance.attended ?? 0}/{stats.attendance.total_classes} attended
+            </div>
+          ) : null}
         </div>
       </div>
+
 
       <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "2rem", marginBottom: "2rem" }}>
          {/* Course List */}
