@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from api.dependencies import get_data_loader
 from api.models import ChatRequest, ChatResponse
 from api.middleware.auth import verify_api_key, limiter
-from ai.student_advisor_1 import AIStudentAdvisor
+from ai.student_advisor import AIStudentAdvisor
 from ai.student_data_loader import StudentDataLoader
 from api.config import settings
 from student import Student
