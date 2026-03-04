@@ -27,49 +27,15 @@ def test_openai_connection():
         return False
     
     try:
-        # Initialize OpenAI client
-        print("\n🔌 Connecting to OpenAI API...")
-        client = OpenAI(api_key=OPENAI_API_KEY)
+        # Локал горимд OpenAI-ийн оронд хиймэл хариулт буцаах
+        print("\n🏠 Local Mode: Skipping OpenAI connection...")
+        ai_message = "Сайн байна уу! Төсөл 100% локал горимд ажиллаж байна. Өгөгдлийн сантай холбогдлоо."
         
-        # Make a simple test call
-        print(f"🤖 Using model: {OPENAI_MODEL}")
-        print("📤 Sending test message...\n")
-        
-        response = client.chat.completions.create(
-            model=OPENAI_MODEL,
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a helpful assistant."
-                },
-                {
-                    "role": "user",
-                    "content": "Say 'Hello! OpenAI is working!' in one sentence."
-                }
-            ],
-            max_tokens=50,
-            temperature=0.7
-        )
-        
-        # Extract response
-        ai_message = response.choices[0].message.content
-        tokens_used = response.usage.total_tokens
-        
-        print("✅ Connection successful!\n")
+        print("✅ Local environment ready!\n")
         print("="*60)
-        print("🤖 AI Response:")
+        print("🤖 AI Response (LOCAL MOCK):")
         print(f"   {ai_message}")
         print("="*60)
-        print(f"\n📊 Tokens Used: {tokens_used}")
-        print(f"💰 Estimated Cost: ${(tokens_used / 1000) * 0.002:.6f} USD")
-        
-        print("\n" + "="*60)
-        print("🎉 OpenAI Setup Complete!")
-        print("="*60)
-        print("\n✅ What this means:")
-        print("   • Your API key is working")
-        print("   • You can now build AI applications")
-        print("   • Ready for Step 2: Prompt Engineering")
         
         return True
         

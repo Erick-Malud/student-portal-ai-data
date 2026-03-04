@@ -12,12 +12,18 @@ from api.config import settings
 from student import Student
 import uuid
 from datetime import datetime
+import logging
+import traceback
 
 router = APIRouter(prefix="/api/chat", tags=["Chat"])
+
+SESSION_TIMEOUT_SECONDS = 30
 
 # Services - lazy initialization
 _advisor = None
 _data_loader = None
+
+logger = logging.getLogger(__name__)
 
 def get_advisor():
     """Lazy initialize advisor"""
@@ -60,14 +66,26 @@ async def chat(
         # Create or retrieve session
         session_id = chat_request.session_id or str(uuid.uuid4())
         
+        now = datetime.now()
         if session_id not in active_sessions:
             # New session - reset context
             get_advisor().context_manager.reset_conversation()
             active_sessions[session_id] = {
                 "student_id": chat_request.student_id,
-                "created_at": datetime.now(),
+                "created_at": now,
                 "message_count": 0
             }
+        else:
+            last_message = active_sessions[session_id].get("last_message")
+            if last_message and (now - last_message).total_seconds() > SESSION_TIMEOUT_SECONDS:
+                # Expired session - reset conversation and state
+                get_advisor().context_manager.reset_conversation()
+                get_advisor().reset_state(chat_request.student_id)
+                active_sessions[session_id] = {
+                    "student_id": chat_request.student_id,
+                    "created_at": now,
+                    "message_count": 0
+                }
         
         
         # ---- Follow-up handling: make "Why?" refer to last intent ----
@@ -82,7 +100,7 @@ async def chat(
         
         # Update session
         active_sessions[session_id]["message_count"] += 1
-        active_sessions[session_id]["last_message"] = datetime.now()
+        active_sessions[session_id]["last_message"] = now
         
         response_text = ""
         suggested_courses = None
@@ -122,6 +140,8 @@ async def chat(
     except HTTPException:
         raise
     except Exception as e:
+        logger.error("Chat handler failed: %s", str(e))
+        logger.error(traceback.format_exc())
         raise HTTPException(
             status_code=500,
             detail={
@@ -147,6 +167,7 @@ async def reset_conversation(
         del active_sessions[session_id]
     
     get_advisor().context_manager.reset_conversation()
+    get_advisor().reset_state()
     
     return {
         "message": "Conversation reset successfully",

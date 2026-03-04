@@ -6,10 +6,13 @@ _loader = None
 def get_data_loader() -> StudentDataLoader:
     """
     Shared StudentDataLoader instance.
-    - MOCK_MODE=True  => JSON ашиглана
-    - MOCK_MODE=False => Database ашиглана (чи одоохондоо JSON гэж байсан)
+    - USE_DATABASE overrides data source when set
+    - Otherwise MOCK_MODE=True uses JSON
     """
     global _loader
     if _loader is None:
-        _loader = StudentDataLoader(use_database=not settings.MOCK_MODE)
+        _loader = StudentDataLoader(
+            data_file=settings.STUDENTS_FILE,
+            use_database=settings.USE_DATABASE,
+        )
     return _loader

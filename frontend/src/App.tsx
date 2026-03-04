@@ -310,7 +310,8 @@ function DashboardView({ studentId, studentProfile }: ViewProps) {
            <div style={{ width: '100%', height: 250 }}>
             {stats && (
               <ResponsiveContainer>
-                <BarChart data={stats.academic_record.filter((x:any) => x.grade)}>
+                <BarChart data={(stats?.academic_record ?? []).filter((x: any) => x?.grade !== null && x?.grade !== undefined)}>
+
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="course_code" tick={{fontSize: 12}} />
                   <YAxis domain={[0, 100]} />
@@ -459,7 +460,7 @@ function App() {
       // Restore welcome message if empty
       setMessages([{
         role: "assistant",
-        content: "Welcome! Ask me about your courses, career path, or study plans."
+        content: "Welcome to your AI Advisor. I can help with your academic record, courses, grades, and attendance. What would you like to check first?"
       }]);
     }
   }, []);
@@ -495,7 +496,7 @@ function App() {
     setSessionId("web-" + Math.random().toString(36).substring(7));
     setMessages([{
       role: "assistant", 
-      content: "Welcome! Ask me about your courses, career path, or study plans."
+      content: "Welcome to your AI Advisor. I can help with your academic record, courses, grades, and attendance. What would you like to check first?"
     }]);
   };
 
@@ -534,7 +535,21 @@ function App() {
           session_id: sessionId,
         }),
       });
-      if (!res.ok) throw new Error(`API Error: ${res.status}`);
+      if (!res.ok) {
+        let detail = "";
+        try {
+          const errJson = await res.json();
+          detail = errJson?.error?.message || errJson?.detail?.message || JSON.stringify(errJson);
+        } catch {
+          try {
+            detail = await res.text();
+          } catch {
+            detail = "";
+          }
+        }
+        const suffix = detail ? ` - ${detail}` : "";
+        throw new Error(`API Error: ${res.status}${suffix}`);
+      }
       const json: ApiResponse = await res.json();
       setMessages((prev) => [...prev, { role: "assistant", content: json.response, metadata: json }]);
     } catch (err) {

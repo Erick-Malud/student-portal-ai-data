@@ -36,20 +36,22 @@ class Settings:
     # Environment
     ENV = os.getenv("ENV", "development")
     MOCK_MODE = os.getenv("MOCK_MODE", "false").lower() == "true"
+    _USE_DATABASE_ENV = os.getenv("USE_DATABASE")
+    USE_DATABASE = (
+        _USE_DATABASE_ENV.lower() == "true"
+        if _USE_DATABASE_ENV is not None
+        else not MOCK_MODE
+    )
     
     # CORS
     FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN")
     CORS_ORIGINS: List[str] = [
         "http://localhost:3000",
         "http://localhost:3001",
-        "http://localhost:8080",
-        "http://localhost:5173",  # Vite default
+        "http://localhost:5173",
         "http://127.0.0.1:3000",
-        "http://127.0.0.1:8080",
         "http://127.0.0.1:5173",
-        "http://localhost:5000", # Common frontend port
-        "https://student-portal-ai-data.vercel.app",
-        "https://student-portal-ai-data-p355speby-erickmaluds-projects.vercel.app"
+        "http://localhost:8000"
 
     ]
     if FRONTEND_ORIGIN:
